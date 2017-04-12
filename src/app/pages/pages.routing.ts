@@ -28,6 +28,12 @@ export const routes: Routes = [
         path: 'productOptionsTable',
         loadChildren: 'app/pages/productOptionsTable/productOptionsTable.module#ProductOptionsTableModule'
       },
+
+      { path: 'new',  loadChildren: 'app/pages/new/new.module#NewModule' },
+      {
+        path: 'productOptionDetail',
+        loadChildren: 'app/pages/productOptionDetail/productOptionDetail.module#ProductOptionDetailModule'
+      },
       {path: 'editors', loadChildren: 'app/pages/editors/editors.module#EditorsModule'},
       {path: 'components', loadChildren: 'app/pages/components/components.module#ComponentsModule'},
       {path: 'charts', loadChildren: 'app/pages/charts/charts.module#ChartsModule'},

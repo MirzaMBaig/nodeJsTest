@@ -13,7 +13,8 @@ export const PAGES_MENU = [
             order: 0
           }
         }
-      }, {
+      },
+      {
         path: 'pages',
         data: {
           menu: {
@@ -25,6 +26,20 @@ export const PAGES_MENU = [
           }
         },
         children: [
+
+          {
+            path: ['new'],  // path for our page
+            data: { // custom menu declaration
+              menu: {
+                title: 'New Page', // menu title
+                icon: 'ion-android-home', // menu icon
+                pathMatch: 'prefix', // use it if item children not displayed in menu
+                selected: false,
+                expanded: false,
+                order: 0
+              }
+            }
+          },
           {
             path: ['/login'],
             data: {

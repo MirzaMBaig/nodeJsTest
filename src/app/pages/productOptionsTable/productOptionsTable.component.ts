@@ -14,9 +14,11 @@ export class ProductOptionsTable {
   query: string = '';
 
   settings = {
+    mode: 'external', // inline|external|click-to-edit
+    selectMode: 'single', // single|multi
     actions: {
       add: false,
-      edit: false
+      edit: true
     },
     add: {
       addButtonContent: '<i class="ion-ios-plus-outline"></i>',
@@ -32,10 +34,15 @@ export class ProductOptionsTable {
       deleteButtonContent: '<i class="ion-trash-a"></i>',
       confirmDelete: true
     },
+
     columns: {
+
       id: {
         title: 'ID',
-        type: 'number'
+        type: 'html',
+        valuePrepareFunction: (id) => {
+          return `<a href="/#/pages/productOptionDetail">${id}</a>`;
+        }
       },
       attributeName: {
         title: 'Attribute Name',
