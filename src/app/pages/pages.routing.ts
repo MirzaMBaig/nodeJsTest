@@ -29,7 +29,7 @@ export const routes: Routes = [
         loadChildren: 'app/pages/productOptionsTable/productOptionsTable.module#ProductOptionsTableModule'
       },
 
-      { path: 'new',  loadChildren: 'app/pages/new/new.module#NewModule' },
+      //{ path: 'new',  loadChildren: 'app/pages/new/new.module#NewModule' },
       {
         path: 'productOptionDetail',
         loadChildren: 'app/pages/productOptionDetail/productOptionDetail.module#ProductOptionDetailModule'

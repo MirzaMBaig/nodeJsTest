@@ -1,17 +1,26 @@
-export class ProductOption {
-  id: number;
-  attributeName: string;
-  optionType: string;
-  required: boolean;
+declare module ProductOptionModel {
 
-  constructor(id: number,
-              attributeName: string,
-              optionType: string,
-              required: boolean) {
-    this.id = id;
-    this.attributeName = attributeName;
-    this.optionType = optionType;
-    this.required = required;
+  export class ProductOptionValue {
+    attributeValue: string;
+    displayOrder: number;
+    id: number;
+    priceAdjustment: number;
+  }
+
+  export class ProductOption {
+    attributeName: string;
+    displayOrder: number;
+    errorCode: string;
+    errorMessage: string;
+    id: number;
+    label: string;
+    optionType: string;
+    productOptionValues: ProductOptionValue[];
+    required: boolean;
+    useInSkuGeneration: boolean;
+    validationStrategyType: string;
+    validationString: string;
+    validationType: string;
   }
 
 }

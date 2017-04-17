@@ -10,6 +10,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { routing }       from './productOptionsTable.routing';
 import {ProductOptionsTable} from "./productOptionsTable.component";
 import {ProductOptionsTableService} from "./productOptionsTable.service";
+import {RouterModule} from "@angular/router";
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import {ProductOptionsTableService} from "./productOptionsTable.service";
     NgaModule,
     routing,
     Ng2SmartTableModule,
-    HttpModule
+    HttpModule,
+    RouterModule
   ],
   declarations: [
     ProductOptionsTable

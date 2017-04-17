@@ -2,6 +2,7 @@ import { Routes, RouterModule }  from '@angular/router';
 
 import { Tables } from './tables.component';
 import {ProductOptionsTable} from "./productOptionsTable.component";
+import {ProductOptionDetail} from "../productOptionDetail/productOptionDetail.component";
 
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [

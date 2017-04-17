@@ -1,17 +1,19 @@
-<div class="widgets">
-  <h2>Product Option > Color</h2>
-  <form>
+<div class="widgets" *ngIf="poDetail">
+  <h2>Product Option > {{poDetail.attributeName}}</h2>
+  <form (ngSubmit)="onSubmitForm()">
     <div class="row">
       <div class="col-md-6">
         <div>
           <ba-card title="General" baCardClass="with-scroll">
             <div class="form-group">
-              <label for="LabelInput">Label</label>
-              <input type="text" class="form-control" id="LabelInput" placeholder="Label">
+              <label for="label">Label</label>
+              <input type="text" class="form-control" id="label" name="label" placeholder="Label"
+                     [(ngModel)]="poDetail.label">
             </div>
             <div class="form-group">
               <label for="optionType">Type</label>
-              <input type="text" class="form-control" id="optionType" placeholder="Type">
+              <input type="text" class="form-control" id="optionType" name="optionType" placeholder="Type"
+                     [(ngModel)]="poDetail.optionType">
             </div>
           </ba-card>
         </div>
@@ -21,23 +23,27 @@
           <ba-card title="Details" baCardClass="with-scroll">
             <div class="form-group">
               <label for="attributeName">Attribute Name</label>
-              <input type="text" class="form-control" id="attributeName" placeholder="Attribute Name">
+              <input type="text" class="form-control" name="attributeName" id="attributeName"
+                     placeholder="Attribute Name" [(ngModel)]="poDetail.attributeName">
             </div>
             <div class="form-group">
               <label for="displayOrder">Display Order</label>
-              <input type="number" class="form-control" id="displayOrder" placeholder="Display Order">
+              <input type="number" class="form-control" id="displayOrder" name="displayOrder"
+                     placeholder="Display Order" [(ngModel)]="poDetail.displayOrder">
             </div>
             <label>Use In SKU Generation</label>
             <div class="input-demo radio-demo row">
               <div class="col-md-4">
                 <label class="radio-inline custom-radio nowrap">
-                  <input type="radio" name="inlineRadioOptions" id="skuGenerationYes" value="true">
+                  <input type="radio" name="useInSkuGeneration" [value]="true"
+                         [(ngModel)]="poDetail.useInSkuGeneration">
                   <span>Yes</span>
                 </label>
               </div>
               <div class="col-md-4">
                 <label class="radio-inline custom-radio nowrap">
-                  <input type="radio" name="inlineRadioOptions" id="skuGenerationNo" value="false">
+                  <input type="radio" name="useInSkuGeneration" [value]="false"
+                         [(ngModel)]="poDetail.useInSkuGeneration">
                   <span>No</span>
                 </label>
               </div>
@@ -46,16 +52,17 @@
         </div>
       </div>
     </div>
+
     <div class="row">
       <div class="col-md-6">
         <div>
           <ba-card title="Option Values" baCardClass="with-scroll">
-            <ng2-smart-table [settings]="settings" [source]="source"
+            <ng2-smart-table [settings]="settings" [source]="optionValueSource"
                              (deleteConfirm)="onDeleteConfirm($event)"></ng2-smart-table>
           </ba-card>
         </div>
-
       </div>
+
       <div class="col-md-6">
         <div>
           <ba-card title="Validation" baCardClass="with-scroll">
@@ -63,41 +70,26 @@
             <div class="input-demo radio-demo row">
               <div class="col-md-4">
                 <label class="radio-inline custom-radio nowrap">
-                  <input type="radio" name="inlineRadioOptions" id="validationRrquiredYes" value="true">
+                  <input type="radio" name="required" [value]="true" [(ngModel)]="poDetail.required">
                   <span>Yes</span>
                 </label>
               </div>
               <div class="col-md-4">
                 <label class="radio-inline custom-radio nowrap">
-                  <input type="radio" name="inlineRadioOptions" id="validationRrquiredYes" value="false">
+                  <input type="radio" name="required" [value]="false" [(ngModel)]="poDetail.required">
                   <span>No</span>
                 </label>
               </div>
             </div>
             <label>Validation Strategy</label>
+
             <div class="input-demo radio-demo row">
-              <div class="col-md-4">
+              <div class="col-md-4" *ngFor="let option of validateTypes">
                 <label class=" custom-radio nowrap">
-                  <input type="radio" name="validationStrategyOption" id="validationStrategy1" value="None">
-                  <span>None</span>
-                </label>
-              </div>
-              <div class="col-md-4">
-                <label class=" custom-radio nowrap">
-                  <input type="radio" name="validationStrategyOption" id="validationStrategy2" value="No Value Selected">
-                  <span>No Value Selected</span>
-                </label>
-              </div>
-              <div class="col-md-4">
-                <label class="radio custom-radio nowrap">
-                  <input type="radio" name="validationStrategyOption" id="validationStrategy3" value="Validate on Add Item">
-                  <span>Validate on Add Item</span>
-                </label>
-              </div>
-              <div class="col-md-4">
-                <label class="radio custom-radio nowrap">
-                  <input type="radio" name="validationStrategyOption" id="validationStrategy4" value="Validate on Submit">
-                  <span>Validate on Submit</span>
+                  <input type="radio" name="validationType" [(ngModel)]="poDetail.validationType"
+                         [checked]="option==poDetail.validationType"
+                         value={{option}}>
+                  <span>{{option}}</span>
                 </label>
               </div>
             </div>
