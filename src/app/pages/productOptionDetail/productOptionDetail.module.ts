@@ -1,6 +1,6 @@
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
-import {FormsModule as AngularFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgaModule} from "../../theme/nga.module";
 import {Ng2SmartTableModule} from "ng2-smart-table";
 
@@ -14,10 +14,11 @@ import {ProductOptionDetailService} from "./productOptionDetail.service";
 @NgModule({
   imports: [
     CommonModule,
-    AngularFormsModule,
     NgaModule,
     routing,
-    Ng2SmartTableModule
+    Ng2SmartTableModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   declarations: [
     ProductOptionDetail

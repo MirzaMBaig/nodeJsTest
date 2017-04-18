@@ -3,6 +3,7 @@ import {ProductOptionTable} from "../productOptionsTable/ProductOptionTable.comp
 import {ActivatedRoute} from "@angular/router";
 import {ProductOptionDetailService} from "./productOptionDetail.service";
 import {LocalDataSource} from "ng2-smart-table";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import ProductOption = ProductOptionModel.ProductOption;
 
 @Component({
@@ -17,6 +18,8 @@ export class ProductOptionDetail implements OnInit, OnChanges, OnDestroy {
   poDetail: ProductOption;
   validateTypes: string[] = ["None", "No Value Selected", "Validate on Add Item", "Validate on Submit"];
   optionValueSource: LocalDataSource = new LocalDataSource();
+
+  productOptionForm: FormGroup;
 
   settings = {
     mode: 'inline', // inline|external|click-to-edit
@@ -56,37 +59,55 @@ export class ProductOptionDetail implements OnInit, OnChanges, OnDestroy {
     }
   };
 
-  constructor(protected service: ProductOptionDetailService, private route: ActivatedRoute) {
+  constructor(protected service: ProductOptionDetailService,
+              private route: ActivatedRoute,
+              private formBuilder: FormBuilder) {
+    this.poDetail = {
+      attributeName: '',
+      displayOrder: null,
+      errorCode: null,
+      errorMessage: null,
+      id: null,
+      label: null,
+      optionType: null,
+      productOptionValues: [],
+      required: false,
+      useInSkuGeneration: false,
+      validationStrategyType: null,
+      validationString: null,
+      validationType: "None",
+    };
+    this.createForm();
+  }
 
+  createForm() {
+    this.productOptionForm = this.formBuilder.group({
+      attributeName: [this.poDetail.attributeName, Validators.required],
+      displayOrder: [this.poDetail.displayOrder, Validators.required],
+      errorCode: [this.poDetail.errorCode],
+      errorMessage: [this.poDetail.errorMessage],
+      id: [this.poDetail.id],
+      label: [this.poDetail.label, Validators.required],
+      optionType: [this.poDetail.optionType, Validators.required],
+      productOptionValues: [this.poDetail.productOptionValues,Validators.minLength(1)],
+      required: [this.poDetail.required],
+      useInSkuGeneration: [this.poDetail.useInSkuGeneration],
+      validationStrategyType: [this.poDetail.validationStrategyType],
+      validationString: [this.poDetail.validationString],
+      validationType: [this.poDetail.validationType, Validators.required],
+    });
+    this.optionValueSource.load(this.poDetail.productOptionValues);
   }
 
   ngOnInit(): void {
     this.sub = this.route.params.subscribe(params => {
 
-      // In a real app: dispatch action to load the details here.
       if (params['id'] != null) {
-        this.id = +params['id']; // (+) converts string 'id' to a number
+        this.id = +params['id'];
         this.service.getProductOption(this.id).then((data) => {
           this.poDetail = data;
-          this.optionValueSource.load(this.poDetail.productOptionValues);
+          this.createForm();
         });
-      } else {
-        this.poDetail = {
-          attributeName: "New",
-          displayOrder: null,
-          errorCode: null,
-          errorMessage: null,
-          id: null,
-          label: null,
-          optionType: null,
-          productOptionValues: [],
-          required: false,
-          useInSkuGeneration: false,
-          validationStrategyType: null,
-          validationString: null,
-          validationType: "None"
-        };
-        this.optionValueSource.load(this.poDetail.productOptionValues);
       }
     });
 
@@ -109,16 +130,17 @@ export class ProductOptionDetail implements OnInit, OnChanges, OnDestroy {
   }
 
   onSubmitForm(): void {
+    this.poDetail = this.productOptionForm.value;
+    console.log(this.poDetail);
     if (this.poDetail.id == null) {
       this.service.postProductOption(this.poDetail).then((data) => {
         this.poDetail = data;
-        this.optionValueSource.load(this.poDetail.productOptionValues);
       });
     } else {
       this.service.putProductOption(this.poDetail).then((data) => {
         this.poDetail = data;
-        this.optionValueSource.load(this.poDetail.productOptionValues);
       });
     }
+    this.createForm();
   }
 }

@@ -23,4 +23,10 @@ declare module ProductOptionModel {
     validationType: string;
   }
 
+  export enum ValidationType {
+    NONE,
+    NO_VALUE_SELECTED,
+    VALIDATE_ON_ADD_ITEM,
+    VALIDATE_ON_SUBMIT
+  }
 }

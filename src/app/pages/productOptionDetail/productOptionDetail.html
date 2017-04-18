@@ -1,19 +1,19 @@
-<div class="widgets" *ngIf="poDetail">
-  <h2>Product Option > {{poDetail.attributeName}}</h2>
-  <form (ngSubmit)="onSubmitForm()">
+<form [formGroup]="productOptionForm" (ngSubmit)="onSubmitForm()" novalidate>
+  <div class="widgets">
+    <h2>Product Option > {{productOptionForm.controls['attributeName'].value}}</h2>
     <div class="row">
       <div class="col-md-6">
         <div>
           <ba-card title="General" baCardClass="with-scroll">
-            <div class="form-group">
+            <div class="form-group" [ngClass]="{'has-error':!productOptionForm.controls['label'].valid}">
               <label for="label">Label</label>
               <input type="text" class="form-control" id="label" name="label" placeholder="Label"
-                     [(ngModel)]="poDetail.label">
+                     formControlName="label">
             </div>
-            <div class="form-group">
+            <div class="form-group" [ngClass]="{'has-error':!productOptionForm.controls['optionType'].valid}">
               <label for="optionType">Type</label>
               <input type="text" class="form-control" id="optionType" name="optionType" placeholder="Type"
-                     [(ngModel)]="poDetail.optionType">
+                     formControlName="optionType">
             </div>
           </ba-card>
         </div>
@@ -21,29 +21,29 @@
       <div class="col-md-6">
         <div>
           <ba-card title="Details" baCardClass="with-scroll">
-            <div class="form-group">
+            <div class="form-group" [ngClass]="{'has-error':!productOptionForm.controls['attributeName'].valid}">
               <label for="attributeName">Attribute Name</label>
               <input type="text" class="form-control" name="attributeName" id="attributeName"
-                     placeholder="Attribute Name" [(ngModel)]="poDetail.attributeName">
+                     placeholder="Attribute Name" formControlName="attributeName">
             </div>
-            <div class="form-group">
+            <div class="form-group" [ngClass]="{'has-error':!productOptionForm.controls['displayOrder'].valid}">
               <label for="displayOrder">Display Order</label>
               <input type="number" class="form-control" id="displayOrder" name="displayOrder"
-                     placeholder="Display Order" [(ngModel)]="poDetail.displayOrder">
+                     placeholder="Display Order" formControlName="displayOrder">
             </div>
             <label>Use In SKU Generation</label>
             <div class="input-demo radio-demo row">
               <div class="col-md-4">
                 <label class="radio-inline custom-radio nowrap">
                   <input type="radio" name="useInSkuGeneration" [value]="true"
-                         [(ngModel)]="poDetail.useInSkuGeneration">
+                         formControlName="useInSkuGeneration">
                   <span>Yes</span>
                 </label>
               </div>
               <div class="col-md-4">
                 <label class="radio-inline custom-radio nowrap">
                   <input type="radio" name="useInSkuGeneration" [value]="false"
-                         [(ngModel)]="poDetail.useInSkuGeneration">
+                         formControlName="useInSkuGeneration">
                   <span>No</span>
                 </label>
               </div>
@@ -70,13 +70,13 @@
             <div class="input-demo radio-demo row">
               <div class="col-md-4">
                 <label class="radio-inline custom-radio nowrap">
-                  <input type="radio" name="required" [value]="true" [(ngModel)]="poDetail.required">
+                  <input type="radio" name="required" [value]="true" formControlName="required">
                   <span>Yes</span>
                 </label>
               </div>
               <div class="col-md-4">
                 <label class="radio-inline custom-radio nowrap">
-                  <input type="radio" name="required" [value]="false" [(ngModel)]="poDetail.required">
+                  <input type="radio" name="required" [value]="false" formControlName="required">
                   <span>No</span>
                 </label>
               </div>
@@ -84,10 +84,11 @@
             <label>Validation Strategy</label>
 
             <div class="input-demo radio-demo row">
+              <div class="alert alert-danger" *ngIf="!productOptionForm.controls['validationType'].valid">You must select a Validation Type.</div>
               <div class="col-md-4" *ngFor="let option of validateTypes">
                 <label class=" custom-radio nowrap">
-                  <input type="radio" name="validationType" [(ngModel)]="poDetail.validationType"
-                         [checked]="option==poDetail.validationType"
+                  <input type="radio" name="validationType" formControlName="validationType"
+                         [checked]="option==productOptionForm.controls['validationType'].value"
                          value={{option}}>
                   <span>{{option}}</span>
                 </label>
@@ -97,6 +98,6 @@
         </div>
       </div>
     </div>
-    <button type="submit" class="btn btn-danger">Submit</button>
-  </form>
-</div>
+    <button type="submit" class="btn btn-danger" [disabled]="!productOptionForm.valid">Submit</button>
+  </div>
+</form>
