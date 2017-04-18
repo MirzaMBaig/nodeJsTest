@@ -131,7 +131,6 @@ export class ProductOptionDetail implements OnInit, OnChanges, OnDestroy {
 
   onSubmitForm(): void {
     this.poDetail = this.productOptionForm.value;
-    console.log(this.poDetail);
     if (this.poDetail.id == null) {
       this.service.postProductOption(this.poDetail).then((data) => {
         this.poDetail = data;
