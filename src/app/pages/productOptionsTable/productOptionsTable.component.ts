@@ -1,14 +1,16 @@
 import {Component, EventEmitter, Injectable, OnInit} from "@angular/core";
 import {ProductOptionsTableService} from "./productOptionsTable.service";
-import {LocalDataSource} from "ng2-smart-table";
+import {LocalDataSource, ServerDataSource} from "ng2-smart-table";
 import "style-loader!./productOptionsTable.scss";
 import {Router} from "@angular/router";
 import ProductOption = ProductOptionModel.ProductOption;
+import {ServerPage} from "./serverPage";
+import {Http} from "@angular/http";
 
 
 
 @Component({
-  selector: 'smart-tables',
+  selector: 'productOptionsTable',
   templateUrl: './productOptionsTable.html',
 })
 
@@ -17,6 +19,7 @@ export class ProductOptionsTable implements OnInit{
 
   query: string = '';
   poDetail: ProductOption;
+  serverPage: ServerPage;
 
   settings = {
     mode: 'external', // inline|external|click-to-edit
@@ -67,14 +70,18 @@ export class ProductOptionsTable implements OnInit{
 
   source: LocalDataSource = new LocalDataSource();
 
+
   constructor(protected service: ProductOptionsTableService,
               private router: Router) {
 
   }
 
   ngOnInit(): void {
-    this.service.getProductOptions().then((data) => {
-      this.source.load(data);
+    this.service.getProductOptions("0","10").then((data) => {
+      console.log(data);
+      this.serverPage = data;
+      this.source.load(this.serverPage.content);
+      this.source.setPage(this.serverPage.number);
     });
   }
 

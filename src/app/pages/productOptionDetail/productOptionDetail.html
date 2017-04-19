@@ -1,6 +1,11 @@
 <form [formGroup]="productOptionForm" (ngSubmit)="onSubmitForm()" novalidate>
   <div class="widgets">
     <h2>Product Option > {{productOptionForm.controls['attributeName'].value}}</h2>
+    <div class="text-right">
+      <div class="col-md-12">
+        <button type="submit" class="btn btn-danger" [disabled]="!productOptionForm.valid">Submit</button>
+      </div>
+    </div>
     <div class="row">
       <div class="col-md-6">
         <div>
@@ -84,7 +89,6 @@
             <label>Validation Strategy</label>
 
             <div class="input-demo radio-demo row">
-              <div class="alert alert-danger" *ngIf="!productOptionForm.controls['validationType'].valid">You must select a Validation Type.</div>
               <div class="col-md-4" *ngFor="let option of validateTypes">
                 <label class=" custom-radio nowrap">
                   <input type="radio" name="validationType" formControlName="validationType"
@@ -98,6 +102,5 @@
         </div>
       </div>
     </div>
-    <button type="submit" class="btn btn-danger" [disabled]="!productOptionForm.valid">Submit</button>
   </div>
 </form>

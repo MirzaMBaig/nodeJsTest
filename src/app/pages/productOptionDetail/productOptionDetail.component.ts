@@ -19,6 +19,7 @@ export class ProductOptionDetail implements OnInit, OnChanges, OnDestroy {
   validateTypes: string[] = ["None", "No Value Selected", "Validate on Add Item", "Validate on Submit"];
   optionValueSource: LocalDataSource = new LocalDataSource();
 
+
   productOptionForm: FormGroup;
 
   settings = {
@@ -94,7 +95,7 @@ export class ProductOptionDetail implements OnInit, OnChanges, OnDestroy {
       useInSkuGeneration: [this.poDetail.useInSkuGeneration],
       validationStrategyType: [this.poDetail.validationStrategyType],
       validationString: [this.poDetail.validationString],
-      validationType: [this.poDetail.validationType, Validators.required],
+      validationType: [this.poDetail.validationType],
     });
     this.optionValueSource.load(this.poDetail.productOptionValues);
   }
@@ -110,7 +111,6 @@ export class ProductOptionDetail implements OnInit, OnChanges, OnDestroy {
         });
       }
     });
-
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -129,7 +129,12 @@ export class ProductOptionDetail implements OnInit, OnChanges, OnDestroy {
     }
   }
 
+  reset():void {
+    this.createForm();
+  }
+
   onSubmitForm(): void {
+
     this.poDetail = this.productOptionForm.value;
     if (this.poDetail.id == null) {
       this.service.postProductOption(this.poDetail).then((data) => {
