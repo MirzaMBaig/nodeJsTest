@@ -1,11 +1,15 @@
 <form [formGroup]="productOptionForm" (ngSubmit)="onSubmitForm()" novalidate>
   <div class="widgets">
-    <h2>Product Option > {{productOptionForm.controls['attributeName'].value}}</h2>
-    <div class="text-right">
-      <div class="col-md-12">
-        <button type="submit" class="btn btn-danger" [disabled]="!productOptionForm.valid">Submit</button>
+    <ba-card>
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Product Option > {{productOptionForm.controls['attributeName'].value}}</h2>
+        </div>
+        <div class="col-md-6" align="right">
+          <button type="submit" class="btn btn-danger" [disabled]="!productOptionForm.valid">Submit</button>
+        </div>
       </div>
-    </div>
+    </ba-card>
     <div class="row">
       <div class="col-md-6">
         <div>

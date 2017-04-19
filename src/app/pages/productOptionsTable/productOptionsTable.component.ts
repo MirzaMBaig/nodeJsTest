@@ -1,12 +1,11 @@
-import {Component, EventEmitter, Injectable, OnInit} from "@angular/core";
+import {Component, Injectable, OnInit} from "@angular/core";
 import {ProductOptionsTableService} from "./productOptionsTable.service";
 import {LocalDataSource, ServerDataSource} from "ng2-smart-table";
 import "style-loader!./productOptionsTable.scss";
 import {Router} from "@angular/router";
-import ProductOption = ProductOptionModel.ProductOption;
 import {ServerPage} from "./serverPage";
+import ProductOption = ProductOptionModel.ProductOption;
 import {Http} from "@angular/http";
-
 
 
 @Component({
@@ -15,7 +14,7 @@ import {Http} from "@angular/http";
 })
 
 @Injectable()
-export class ProductOptionsTable implements OnInit{
+export class ProductOptionsTable implements OnInit {
 
   query: string = '';
   poDetail: ProductOption;
@@ -35,8 +34,6 @@ export class ProductOptionsTable implements OnInit{
     },
     edit: {
       editButtonContent: '<i class="ion-edit"></i>',
-      //saveButtonContent: '<i class="ion-checkmark"></i>',
-      //cancelButtonContent: '<i class="ion-close"></i>',
     },
     delete: {
       deleteButtonContent: '<i class="ion-trash-a"></i>',
@@ -44,15 +41,6 @@ export class ProductOptionsTable implements OnInit{
     },
 
     columns: {
-
-      // id: {
-      //   title: 'ID',
-      //   type: 'string',
-      //   // valuePrepareFunction: (id) => {
-      //   //   //return `<a href="/#/pages/productOptionDetail" [(ngModel)]="poDetail">${id}</a>`;
-      //   //   return `<a href="" onclick="onIdClick()">${id}</a>`;
-      //   // },
-      // },
       attributeName: {
         title: 'Attribute Name',
         type: 'string'
@@ -65,24 +53,26 @@ export class ProductOptionsTable implements OnInit{
         title: 'Required',
         type: 'boolean'
       }
+    },
+    pager: {
+      perPage:1
     }
   };
 
-  source: LocalDataSource = new LocalDataSource();
-
+  source: ServerDataSource;
 
   constructor(protected service: ProductOptionsTableService,
-              private router: Router) {
+              private router: Router, private http: Http) {
 
   }
 
   ngOnInit(): void {
-    this.service.getProductOptions("0","10").then((data) => {
-      console.log(data);
-      this.serverPage = data;
-      this.source.load(this.serverPage.content);
-      this.source.setPage(this.serverPage.number);
-    });
+    this.source = new ServerDataSource(this.http, {
+      endPoint: 'http://localhost:9090/ecom/admin/productOption/page',
+      dataKey: 'content',
+      pagerPageKey:'page',
+      pagerLimitKey:'size',
+      totalKey:'totalElements'});
   }
 
   onDeleteConfirm(event): void {
@@ -97,12 +87,12 @@ export class ProductOptionsTable implements OnInit{
     this.poDetail = event.data;
   }
 
-  editRow(event):void{
+  editRow(event): void {
     this.poDetail = event.data;
-    this.router.navigate(['/pages/productOptionDetail',{'id': this.poDetail.id}]);
+    this.router.navigate(['/pages/productOptionDetail', {'id': this.poDetail.id}]);
   }
 
-  addNew(event):void{
+  addNew(event): void {
     this.poDetail = event.data;
     this.router.navigate(['/pages/productOptionDetail']);
   }

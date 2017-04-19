@@ -7,7 +7,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import ProductOption = ProductOptionModel.ProductOption;
 
 @Component({
-  selector: '',
+  selector: 'productOptionDetail',
   templateUrl: './productOptionDetail.html'
 })
 
