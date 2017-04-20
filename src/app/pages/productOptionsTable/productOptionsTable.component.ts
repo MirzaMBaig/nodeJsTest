@@ -1,11 +1,10 @@
 import {Component, Injectable, OnInit} from "@angular/core";
 import {ProductOptionsTableService} from "./productOptionsTable.service";
-import {LocalDataSource, ServerDataSource} from "ng2-smart-table";
+import {ServerDataSource} from "ng2-smart-table";
 import "style-loader!./productOptionsTable.scss";
 import {Router} from "@angular/router";
-import {ServerPage} from "./serverPage";
+import {HttpService} from "../http/HttpService";
 import ProductOption = ProductOptionModel.ProductOption;
-import {Http} from "@angular/http";
 
 
 @Component({
@@ -16,9 +15,7 @@ import {Http} from "@angular/http";
 @Injectable()
 export class ProductOptionsTable implements OnInit {
 
-  query: string = '';
   poDetail: ProductOption;
-  serverPage: ServerPage;
 
   settings = {
     mode: 'external', // inline|external|click-to-edit
@@ -55,24 +52,25 @@ export class ProductOptionsTable implements OnInit {
       }
     },
     pager: {
-      perPage:1
+      perPage: 10
     }
   };
 
   source: ServerDataSource;
 
   constructor(protected service: ProductOptionsTableService,
-              private router: Router, private http: Http) {
+              private router: Router, protected http: HttpService) {
 
   }
 
   ngOnInit(): void {
-    this.source = new ServerDataSource(this.http, {
-      endPoint: 'http://localhost:9090/ecom/admin/productOption/page',
+    this.source = new ServerDataSource(this.http.getHttp(), {
+      endPoint: this.http.remoteUrl().concat('admin/productOption/page'),
       dataKey: 'content',
-      pagerPageKey:'page',
-      pagerLimitKey:'size',
-      totalKey:'totalElements'});
+      pagerPageKey: 'page',
+      pagerLimitKey: 'size',
+      totalKey: 'totalElements'
+    });
   }
 
   onDeleteConfirm(event): void {

@@ -4,6 +4,8 @@ import {ActivatedRoute} from "@angular/router";
 import {ProductOptionDetailService} from "./productOptionDetail.service";
 import {LocalDataSource} from "ng2-smart-table";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {HttpService} from "../http/HttpService";
+import {RequestMethod} from "@angular/http";
 import ProductOption = ProductOptionModel.ProductOption;
 
 @Component({
@@ -18,7 +20,9 @@ export class ProductOptionDetail implements OnInit, OnChanges, OnDestroy {
   poDetail: ProductOption;
   validateTypes: string[] = ["None", "No Value Selected", "Validate on Add Item", "Validate on Submit"];
   optionValueSource: LocalDataSource = new LocalDataSource();
-
+  serverErrors: string[] = [];
+  serverMessage: String;
+  productOptionUrl = "product/option";
 
   productOptionForm: FormGroup;
 
@@ -62,9 +66,10 @@ export class ProductOptionDetail implements OnInit, OnChanges, OnDestroy {
 
   constructor(protected service: ProductOptionDetailService,
               private route: ActivatedRoute,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private httpService: HttpService) {
     this.poDetail = {
-      attributeName: '',
+      attributeName: null,
       displayOrder: null,
       errorCode: null,
       errorMessage: null,
@@ -90,7 +95,7 @@ export class ProductOptionDetail implements OnInit, OnChanges, OnDestroy {
       id: [this.poDetail.id],
       label: [this.poDetail.label, Validators.required],
       optionType: [this.poDetail.optionType, Validators.required],
-      productOptionValues: [this.poDetail.productOptionValues,Validators.minLength(1)],
+      productOptionValues: [this.poDetail.productOptionValues, Validators.minLength(1)],
       required: [this.poDetail.required],
       useInSkuGeneration: [this.poDetail.useInSkuGeneration],
       validationStrategyType: [this.poDetail.validationStrategyType],
@@ -105,10 +110,7 @@ export class ProductOptionDetail implements OnInit, OnChanges, OnDestroy {
 
       if (params['id'] != null) {
         this.id = +params['id'];
-        this.service.getProductOption(this.id).then((data) => {
-          this.poDetail = data;
-          this.createForm();
-        });
+        this.getProductOption(this.id);
       }
     });
   }
@@ -129,22 +131,37 @@ export class ProductOptionDetail implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  reset():void {
+  reset(): void {
     this.createForm();
   }
 
   onSubmitForm(): void {
-
+    this.serverErrors = [];
+    this.serverMessage = null;
     this.poDetail = this.productOptionForm.value;
-    if (this.poDetail.id == null) {
-      this.service.postProductOption(this.poDetail).then((data) => {
+    this.saveOrUpdateProductOption(this.poDetail.id == null ? RequestMethod.Post : RequestMethod.Put);
+  }
+
+  private saveOrUpdateProductOption(method: RequestMethod) {
+    this.httpService
+      .request(this.productOptionUrl, this.poDetail, method)
+      .then(data => {
         this.poDetail = data;
-      });
-    } else {
-      this.service.putProductOption(this.poDetail).then((data) => {
+        this.serverMessage = RequestMethod.Post == method ? "Saved Successfully!!!" : "Updated Successfully!!!";
+        this.createForm();
+      })
+      .catch(err => this.serverErrors = err);
+  }
+
+  private getProductOption(id) {
+    this.httpService
+      .get('product/option/id/' + id)
+      .then(data => {
         this.poDetail = data;
+        this.createForm();
+      })
+      .catch(err => {
+        this.serverErrors = err;
       });
-    }
-    this.createForm();
   }
 }

@@ -3,13 +3,10 @@ import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgaModule} from "../../theme/nga.module";
 import {Ng2SmartTableModule} from "ng2-smart-table";
-
-
 import {routing} from "./productOptionDetail.routing";
-
-
 import {ProductOptionDetail} from "./productOptionDetail.component";
 import {ProductOptionDetailService} from "./productOptionDetail.service";
+import {HttpService} from "../http/HttpService";
 
 @NgModule({
   imports: [
@@ -24,7 +21,8 @@ import {ProductOptionDetailService} from "./productOptionDetail.service";
     ProductOptionDetail
   ],
   providers: [
-    ProductOptionDetailService
+    ProductOptionDetailService,
+    HttpService
   ]
 })
 export class ProductOptionDetailModule {

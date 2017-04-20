@@ -3,13 +3,40 @@
     <ba-card>
       <div class="row">
         <div class="col-md-6">
-          <h2>Product Option > {{productOptionForm.controls['attributeName'].value}}</h2>
+          <h2><a routerLink="/pages/productOptionsTable">Product Option</a> > {{productOptionForm.controls['attributeName'].value}}</h2>
         </div>
         <div class="col-md-6" align="right">
-          <button type="submit" class="btn btn-danger" [disabled]="!productOptionForm.valid">Submit</button>
+          <button type="submit" class="btn btn-danger">Submit</button>
         </div>
       </div>
     </ba-card>
+
+    <ba-card *ngIf="serverErrors.length">
+      <div class="row">
+        <div class="col-md-6">
+          <ul>
+            <li *ngFor="let poErrors of serverErrors">
+              <span class="alert-warning">{{poErrors}}</span>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-6" align="right">
+          <button type="button" class="btn btn-danger" (click)="serverErrors = []">Close</button>
+        </div>
+      </div>
+    </ba-card>
+
+    <ba-card *ngIf="serverMessage">
+      <div class="row">
+        <div class="col-md-6">
+              <span class="alert-info">{{serverMessage}}</span>
+        </div>
+        <div class="col-md-6" align="right">
+          <button type="button" class="btn btn-danger" (click)="serverMessage = []">Close</button>
+        </div>
+      </div>
+    </ba-card>
+
     <div class="row">
       <div class="col-md-6">
         <div>
