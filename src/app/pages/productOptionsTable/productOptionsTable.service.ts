@@ -5,8 +5,6 @@ import ProductOption = ProductOptionModel.ProductOption;
 @Injectable()
 export class ProductOptionsTableService {
 
-  productOptionsTableData: ProductOption[];
-
   constructor() {
   }
 
