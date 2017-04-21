@@ -7,6 +7,8 @@ import {routing} from "./productOptionDetail.routing";
 import {ProductOptionDetail} from "./productOptionDetail.component";
 import {ProductOptionDetailService} from "./productOptionDetail.service";
 import {HttpService} from "../http/HttpService";
+import {ServerResponseBarService} from "../serverResponseBar/serverResponseBar.service";
+import {ServerResponseBar} from "../serverResponseBar/serverResponseBar.component";
 
 @NgModule({
   imports: [
@@ -18,11 +20,13 @@ import {HttpService} from "../http/HttpService";
     FormsModule
   ],
   declarations: [
-    ProductOptionDetail
+    ProductOptionDetail,
+    ServerResponseBar
   ],
   providers: [
     ProductOptionDetailService,
-    HttpService
+    HttpService,
+    ServerResponseBarService
   ]
 })
 export class ProductOptionDetailModule {

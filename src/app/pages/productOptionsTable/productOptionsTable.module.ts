@@ -9,6 +9,7 @@ import {ProductOptionsTable} from "./productOptionsTable.component";
 import {ProductOptionsTableService} from "./productOptionsTable.service";
 import {RouterModule} from "@angular/router";
 import {HttpService} from "../http/HttpService";
+import {ServerResponseBarService} from "../serverResponseBar/serverResponseBar.service";
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import {HttpService} from "../http/HttpService";
   ],
   providers:[
     ProductOptionsTableService,
-    HttpService
+    HttpService,
+    ServerResponseBarService
   ]
 
 })

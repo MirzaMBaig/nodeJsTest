@@ -10,33 +10,7 @@
         </div>
       </div>
     </ba-card>
-
-    <ba-card *ngIf="serverErrors.length">
-      <div class="row">
-        <div class="col-md-6">
-          <ul>
-            <li *ngFor="let poErrors of serverErrors">
-              <span class="alert-warning">{{poErrors}}</span>
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-6" align="right">
-          <button type="button" class="btn btn-danger" (click)="serverErrors = []">Close</button>
-        </div>
-      </div>
-    </ba-card>
-
-    <ba-card *ngIf="serverMessage">
-      <div class="row">
-        <div class="col-md-6">
-              <span class="alert-info">{{serverMessage}}</span>
-        </div>
-        <div class="col-md-6" align="right">
-          <button type="button" class="btn btn-danger" (click)="serverMessage = []">Close</button>
-        </div>
-      </div>
-    </ba-card>
-
+    <server-response-bar></server-response-bar>
     <div class="row">
       <div class="col-md-6">
         <div>

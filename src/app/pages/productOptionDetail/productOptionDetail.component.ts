@@ -20,8 +20,6 @@ export class ProductOptionDetail implements OnInit, OnChanges, OnDestroy {
   poDetail: ProductOption;
   validateTypes: string[] = ["None", "No Value Selected", "Validate on Add Item", "Validate on Submit"];
   optionValueSource: LocalDataSource = new LocalDataSource();
-  serverErrors: string[] = [];
-  serverMessage: String;
   productOptionUrl = "product/option";
 
   productOptionForm: FormGroup;
@@ -136,8 +134,6 @@ export class ProductOptionDetail implements OnInit, OnChanges, OnDestroy {
   }
 
   onSubmitForm(): void {
-    this.serverErrors = [];
-    this.serverMessage = null;
     this.poDetail = this.productOptionForm.value;
     this.saveOrUpdateProductOption(this.poDetail.id == null ? RequestMethod.Post : RequestMethod.Put);
   }
@@ -147,10 +143,9 @@ export class ProductOptionDetail implements OnInit, OnChanges, OnDestroy {
       .request(this.productOptionUrl, this.poDetail, method)
       .then(data => {
         this.poDetail = data;
-        this.serverMessage = RequestMethod.Post == method ? "Saved Successfully!!!" : "Updated Successfully!!!";
         this.createForm();
       })
-      .catch(err => this.serverErrors = err);
+      .catch(err => console.log(err));
   }
 
   private getProductOption(id) {
@@ -160,8 +155,6 @@ export class ProductOptionDetail implements OnInit, OnChanges, OnDestroy {
         this.poDetail = data;
         this.createForm();
       })
-      .catch(err => {
-        this.serverErrors = err;
-      });
+      .catch(err => console.log(err));
   }
 }
