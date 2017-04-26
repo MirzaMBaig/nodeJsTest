@@ -37,7 +37,7 @@ export const PAGES_MENU = [
             }
           },
           {
-            path: ['/register'],
+            path: ['productDetail'],
             data: {
               menu: {
                 title: 'Product'

@@ -3,6 +3,8 @@ import {Injectable} from "@angular/core";
 import {ErrorResponse} from "./ErrorResponse";
 import {ServerResponseBarService} from "../serverResponseBar/serverResponseBar.service";
 
+import 'rxjs/Rx';
+
 @Injectable()
 export class HttpService {
 

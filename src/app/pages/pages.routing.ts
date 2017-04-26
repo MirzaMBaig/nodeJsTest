@@ -11,25 +11,20 @@ export const routes: Routes = [
     loadChildren: 'app/pages/login/login.module#LoginModule'
   },
   {
-    path: 'register',
-    loadChildren: 'app/pages/register/register.module#RegisterModule'
-  },
-  {
-    path: 'productOptions',
-    loadChildren: 'app/pages/productOptions/productOptions.module#ProductOptionsModule'
-  },
-  {
     path: 'pages',
     component: Pages,
     children: [
       {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
       {path: 'dashboard', loadChildren: 'app/pages/dashboard/dashboard.module#DashboardModule'},
+
+      {
+        path: 'productDetail',
+        loadChildren: 'app/pages/productDetail/productDetail.module#ProductDetailModule'
+      },
       {
         path: 'productOptionsTable',
         loadChildren: 'app/pages/productOptionsTable/productOptionsTable.module#ProductOptionsTableModule'
       },
-
-      //{ path: 'new',  loadChildren: 'app/pages/new/new.module#NewModule' },
       {
         path: 'productOptionDetail',
         loadChildren: 'app/pages/productOptionDetail/productOptionDetail.module#ProductOptionDetailModule'
