@@ -6,12 +6,18 @@ import {HttpService} from "../http/HttpService";
 import {Product} from "./Product";
 import {Sku} from "./Sku";
 import {RequestMethod} from "@angular/http";
-
+import {NgbDateParserFormatter, NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {LocalDataSource} from "ng2-smart-table";
+import {ProductOptionModal} from "./poModal/product-options-modal.component";
+import ProductOption = ProductOptionModel.ProductOption;
 
 
 @Component({
   selector: 'productDetail',
-  templateUrl: './productDetail.html'
+  templateUrl: './productDetail.html',
+  entryComponents: [
+    ProductOptionModal
+  ]
 })
 
 export class ProductDetail implements OnInit, OnDestroy {
@@ -22,6 +28,48 @@ export class ProductDetail implements OnInit, OnDestroy {
   inventoryTypes: Array<String> = ["No Value Selected", "Always Available", "Check Quantity", "Unavailable"];
   dimensionUnits: Array<String> = ["No Value Selected", "Centimeters", "Feet", "Inches", "Meters"];
   weightUnits: Array<String> = ["No Value Selected", "Kilograms", "Pounds"];
+
+  productOptionsSource: LocalDataSource = new LocalDataSource();
+
+  settings = {
+    mode: 'external', // inline|external|click-to-edit
+    selectMode: 'single', // single|multi
+    noDataMessage: "no product options for this product, please add",
+    actions: {
+      add: true,
+      delete: false,
+      edit: false
+    },
+    add: {
+      addButtonContent: '<i class="ion-ios-plus-outline"></i>',
+      createButtonContent: '<i class="ion-checkmark"></i>',
+      cancelButtonContent: '<i class="ion-close"></i>',
+      confirmCreate: true,
+    },
+    delete: {
+      deleteButtonContent: '<i class="ion-trash-a"></i>',
+      confirmDelete: true
+    },
+
+    columns: {
+      attributeName: {
+        title: 'Attribute Name',
+        type: 'string'
+      },
+      optionType: {
+        title: 'Option Type',
+        type: 'string'
+      },
+      required: {
+        title: 'Required',
+        type: 'boolean'
+      }
+    },
+    pager: {
+      perPage: 10
+    }
+  };
+
 
   ngOnInit(): void {
   }
@@ -35,7 +83,10 @@ export class ProductDetail implements OnInit, OnDestroy {
   constructor(protected service: ProductDetailService,
               private route: ActivatedRoute,
               private formBuilder: FormBuilder,
-              private httpService: HttpService) {
+              private httpService: HttpService,
+              public dateFormatter: NgbDateParserFormatter,
+              private poModal: NgbModal) {
+
 
     this.productDetail = {
       name: null,
@@ -70,11 +121,12 @@ export class ProductDetail implements OnInit, OnDestroy {
       isFeaturedProduct: [this.productDetail.isFeaturedProduct],
       overrideGeneratedUrl: [this.productDetail.overrideGeneratedUrl],
       defaultCategoryId: [this.productDetail.defaultCategoryId, Validators.required],
-      defaultSkuId: [this.productDetail.defaultSkuId],
+      productOptionsSource: [this.productDetail.productOptions],
       productCategories: [this.productDetail.productCategories],
       defaultSku: this.formBuilder.group({
-        activeStartDate: [this.productDetail.defaultSku.activeStartDate],
-        activeEndDate: [this.productDetail.defaultSku.activeEndDate],
+        defaultSkuName: [this.productDetail.defaultSku.name],
+        activeStartDate: [this.dateFormatter.parse(this.productDetail.defaultSku.activeStartDate)],
+        activeEndDate: [this.dateFormatter.parse(this.productDetail.defaultSku.activeEndDate)],
         taxableFlag: [this.productDetail.defaultSku.taxableFlag],
         msrPrice: [this.productDetail.defaultSku.msrPrice],
         sellingPrice: [this.productDetail.defaultSku.sellingPrice, Validators.required],
@@ -94,17 +146,27 @@ export class ProductDetail implements OnInit, OnDestroy {
       }),
 
     });
+    this.productOptionsSource.load(this.productDetail.productOptions ? this.productDetail.productOptions : []);
   }
 
   onSubmitProduct(): void {
     console.log("submit called");
     this.productDetail = this.productForm.value;
+    this.productDetail.defaultSku.activeStartDate = this.dateFormatter.format(this.productForm.controls.defaultSku.controls["activeStartDate"].value);
+    this.productDetail.defaultSku.activeEndDate = this.dateFormatter.format(this.productForm.controls.defaultSku.controls["activeEndDate"].value);
+
+    this.productOptionsSource.getAll().then(data => {
+      this.productDetail.productOptions = data;
+      this.saveOrUpdateProduct(RequestMethod.Post);
+    });
+
     console.log(this.productDetail);
-    this.saveOrUpdateProduct(RequestMethod.Post);
+
   }
 
   private saveOrUpdateProduct(method: RequestMethod) {
     console.log("saveOrUpdateProduct");
+
     this.httpService
       .request(this.productUrl, this.productDetail, method)
       .then(data => {
@@ -113,4 +175,20 @@ export class ProductDetail implements OnInit, OnDestroy {
       })
       .catch(err => console.log(err));
   }
+
+  addNewProductOption(event): void {
+
+    console.log("haow");
+
+    let poModel = this.poModal.open(ProductOptionModal, {
+      size: 'lg',
+      backdrop: 'static'
+    });
+
+    poModel.result.then((res) => {
+      this.productOptionsSource.prepend(res)
+    }).catch(err => console.log(err));
+  }
+
+
 }

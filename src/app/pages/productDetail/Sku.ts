@@ -3,9 +3,9 @@ import ProductOptionValue = ProductOptionModel.ProductOptionValue;
 export class Sku {
   id: number;
 
-  activeEndDate: Date;
+  activeEndDate: string;
 
-  activeStartDate: Date;
+  activeStartDate: string;
 
   availableFlag: boolean;
 
@@ -68,5 +68,9 @@ export class Sku {
   defaultSku: boolean;
 
   poductOptionsValues: Array<ProductOptionValue>;
+
+  constructor(){
+    this.defaultSku = true;
+  }
 
 }

@@ -11,7 +11,7 @@
         </div>
       </div>
     </ba-card>
-
+    <server-response-bar></server-response-bar>
     <ngb-tabset>
       <ngb-tab title="General">
         <template ngbTabContent>
@@ -35,11 +35,11 @@
                            placeholder="Default Parent Category"
                            formControlName="defaultCategoryId">
                   </div>
-                  <div class="form-group" [ngClass]="{'has-error':!productForm.controls['defaultSkuId'].valid}">
-                    <label for="defaultSkuId">Default Sku</label>
-                    <input type="text" class="form-control" id="defaultSkuId"
-                           placeholder="Default Sku"
-                           formControlName="defaultSkuId">
+                  <div class="form-group" formGroupName="defaultSku">
+                    <label for="defaultSkuName">Default Sku</label>
+                    <input type="text" class="form-control" id="defaultSkuName"
+                           placeholder="Default Sku Name"
+                           formControlName="defaultSkuName">
                   </div>
                   <div class="form-group" [ngClass]="{'has-error':!productForm.controls['manufacture'].valid}">
                     <label for="manufacture">Manufacturer</label>
@@ -95,18 +95,21 @@
                   <div class="form-group">
                     <label for="activeStartDate">Start Date</label>
                     <div id="activeStartDate" class="input-group">
-                      <input class="form-control" placeholder="yyyy-mm-dd"
-                             formControlName="activeStartDate" ngbDatepicker #d="ngbDatepicker">
+                      <input type="text" class="form-control" placeholder="dd-mm-yyyy"
+                             formControlName="activeStartDate"  ngbDatepicker #d="ngbDatepicker" >
+
                       <div class="input-group-addon" (click)="d.toggle()">
                         <span class="fa fa-calendar" aria-hidden="true"></span>
                       </div>
+
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="activeEndDate">End Date</label>
                     <div class="input-group">
-                      <input id="activeEndDate" class="form-control" placeholder="yyyy-mm-dd"
+                      <input id="activeEndDate" class="form-control" placeholder="dd-mm-yyyy"
                              formControlName="activeEndDate" ngbDatepicker #d1="ngbDatepicker">
+
                       <div class="input-group-addon" (click)="d1.toggle()">
                         <span class="fa fa-calendar" aria-hidden="true"></span>
                       </div>
@@ -180,7 +183,12 @@
       </ngb-tab>
       <ngb-tab title="Options">
         <template ngbTabContent>
-
+          <div>
+            <ba-card title="Product OptionS" baCardClass="with-scroll">
+              <ng2-smart-table [settings]="settings" [source]="productOptionsSource"
+                               (create)="addNewProductOption($event)"></ng2-smart-table>
+            </ba-card>
+          </div>
         </template>
       </ngb-tab>
       <ngb-tab title="Skus">
