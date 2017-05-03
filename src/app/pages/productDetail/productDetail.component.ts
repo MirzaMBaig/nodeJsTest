@@ -229,8 +229,8 @@ export class ProductDetail implements OnInit, OnDestroy {
     }).catch(err => console.log(err));
   }
 
-  addNewSku(event): void {
-    console.log("adding sku");
+  editNewSku(event): void {
+    console.log("edit sku");
   }
 
   addNewSku(event): void {
