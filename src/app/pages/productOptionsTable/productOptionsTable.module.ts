@@ -1,15 +1,16 @@
-import { NgModule }      from '@angular/core';
-import { CommonModule }  from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgaModule } from '../../theme/nga.module';
-import { HttpModule } from '@angular/http';
-import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { routing }       from './productOptionsTable.routing';
+import {NgModule} from "@angular/core";
+import {CommonModule} from "@angular/common";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {NgaModule} from "../../theme/nga.module";
+import {HttpModule} from "@angular/http";
+import {Ng2SmartTableModule} from "ng2-smart-table";
+import {routing} from "./productOptionsTable.routing";
 import {ProductOptionsTable} from "./productOptionsTable.component";
 import {ProductOptionsTableService} from "./productOptionsTable.service";
 import {RouterModule} from "@angular/router";
 import {HttpService} from "../http/HttpService";
-import {ServerResponseBarService} from "../serverResponseBar/serverResponseBar.service";
+import {ServerResponseBarModule} from "../serverResponseBar/serverResponseBar.module";
+
 
 @NgModule({
   imports: [
@@ -20,16 +21,18 @@ import {ServerResponseBarService} from "../serverResponseBar/serverResponseBar.s
     routing,
     Ng2SmartTableModule,
     HttpModule,
-    RouterModule
+    RouterModule,
+    ServerResponseBarModule
+
   ],
   declarations: [
     ProductOptionsTable
   ],
-  providers:[
+  providers: [
     ProductOptionsTableService,
     HttpService,
-    ServerResponseBarService
   ]
 
 })
-export class ProductOptionsTableModule {}
+export class ProductOptionsTableModule {
+}

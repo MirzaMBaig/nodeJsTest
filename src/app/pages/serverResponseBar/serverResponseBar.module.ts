@@ -14,7 +14,8 @@ import {ServerResponseBarService} from "./serverResponseBar.service";
     NgaModule,
   ],
   declarations: [ServerResponseBar],
-  providers: [ServerResponseBarService]
+  providers: [ServerResponseBarService],
+  exports: [ServerResponseBar]
 })
 export class ServerResponseBarModule {
 }

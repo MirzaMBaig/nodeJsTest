@@ -184,7 +184,7 @@
       <ngb-tab title="Options">
         <template ngbTabContent>
           <div>
-            <ba-card title="Product OptionS" baCardClass="with-scroll">
+            <ba-card title="Product Options" baCardClass="with-scroll">
               <ng2-smart-table [settings]="settings" [source]="productOptionsSource"
                                (create)="addNewProductOption($event)"></ng2-smart-table>
             </ba-card>
@@ -193,13 +193,67 @@
       </ngb-tab>
       <ngb-tab title="Skus">
         <template ngbTabContent>
-          <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro
-            synth
-            master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro
-            keffiyeh
-            dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat
-            salvia cillum
-            iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+          <div class="row">
+          <div class="col-md-6">
+
+            <ba-card title="Skus" baCardClass="with-scroll">
+              <ng2-smart-table [settings]="skuSettings" [source]="skuSource"
+                               (create)="addNewSku($event)"></ng2-smart-table>
+            </ba-card>
+            </div>
+            <div class="col-md-6">
+              <div>
+                <ba-card title="General" baCardClass="with-scroll">
+                  <div class="form-group" [ngClass]="{'has-error':!productForm.controls['name'].valid}">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Name"
+                           formControlName="name">
+                  </div>
+                  <div class="form-group" [ngClass]="{'has-error':!productForm.controls['description'].valid}">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" id="description" placeholder="description"
+                              formControlName="description"></textarea>
+                  </div>
+                  <div class="form-group" [ngClass]="{'has-error':!productForm.controls['defaultCategoryId'].valid}">
+                    <label for="defaultCategoryId">Default Parent Category</label>
+                    <input type="text" class="form-control" id="defaultCategoryId"
+                           placeholder="Default Parent Category"
+                           formControlName="defaultCategoryId">
+                  </div>
+                  <div class="form-group" formGroupName="defaultSku">
+                    <label for="defaultSkuName">Default Sku</label>
+                    <input type="text" class="form-control" id="defaultSkuName"
+                           placeholder="Default Sku Name"
+                           formControlName="defaultSkuName">
+                  </div>
+                  <div class="form-group" [ngClass]="{'has-error':!productForm.controls['manufacture'].valid}">
+                    <label for="manufacture">Manufacturer</label>
+                    <input type="text" class="form-control" id="manufacture"
+                           placeholder="Manufacturer"
+                           formControlName="manufacture">
+                  </div>
+                  <label>Override generated url </label>
+                  <div class="input-demo radio-demo row">
+                    <div class="col-md-4">
+                      <label class="radio-inline custom-radio nowrap">
+                        <input type="radio" name="overrideGeneratedUrl" [value]="true"
+                               formControlName="overrideGeneratedUrl">
+                        <span>Yes</span>
+                      </label>
+                    </div>
+                    <div class="col-md-4">
+                      <label class="radio-inline custom-radio nowrap">
+                        <input type="radio" name="overrideGeneratedUrl" [value]="false"
+                               formControlName="overrideGeneratedUrl">
+                        <span>No</span>
+                      </label>
+                    </div>
+                  </div>
+                </ba-card>
+              </div>
+            </div>
+          </div>
+
         </template>
       </ngb-tab>
       <ngb-tab title="Inventory">
@@ -325,7 +379,6 @@
       </ngb-tab>
     </ngb-tabset>
   </div>
-  <pre>Model: {{ productDetail | json }}</pre>
 </form>
 
 

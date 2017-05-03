@@ -10,6 +10,7 @@ import {ProductService} from "./products.service";
 import {RouterModule} from "@angular/router";
 import {HttpService} from "../http/HttpService";
 import {ServerResponseBarService} from "../serverResponseBar/serverResponseBar.service";
+import {ServerResponseBarModule} from "../serverResponseBar/serverResponseBar.module";
 
 @NgModule({
   imports: [
@@ -20,17 +21,17 @@ import {ServerResponseBarService} from "../serverResponseBar/serverResponseBar.s
     routing,
     Ng2SmartTableModule,
     HttpModule,
-    RouterModule
+    RouterModule,
+    ServerResponseBarModule
   ],
   declarations: [
     Products
   ],
   providers: [
     ProductService,
-    HttpService,
-    ServerResponseBarService
+    HttpService
   ]
 
 })
-export class ProductOptionsTableModule {
+export class ProductsModule {
 }

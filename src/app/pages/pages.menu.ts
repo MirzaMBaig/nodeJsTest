@@ -37,7 +37,7 @@ export const PAGES_MENU = [
             }
           },
           {
-            path: ['productDetail'],
+            path: ['products'],
             data: {
               menu: {
                 title: 'Product'

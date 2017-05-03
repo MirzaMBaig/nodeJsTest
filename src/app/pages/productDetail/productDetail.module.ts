@@ -10,10 +10,9 @@ import {HttpService} from "../http/HttpService";
 import {DatepickerModule, ModalModule} from "ng2-bootstrap";
 import {RouterModule} from "@angular/router";
 import {HttpModule} from "@angular/http";
-import {ServerResponseBarService} from "../serverResponseBar/serverResponseBar.service";
-import {ServerResponseBar} from "../serverResponseBar/serverResponseBar.component";
 import {Ng2SmartTableModule} from "ng2-smart-table";
 import {ProductOptionModal} from "./poModal/product-options-modal.component";
+import {ServerResponseBarModule} from "../serverResponseBar/serverResponseBar.module";
 
 
 @NgModule({
@@ -29,13 +28,13 @@ import {ProductOptionModal} from "./poModal/product-options-modal.component";
     HttpModule,
     Ng2SmartTableModule,
     ModalModule.forRoot(),
+    ServerResponseBarModule
   ],
   declarations: [
     ProductDetail,
-    ServerResponseBar,
     ProductOptionModal,
   ],
-  providers: [ProductDetailService, HttpService, ServerResponseBarService
+  providers: [ProductDetailService, HttpService
   ],
   entryComponents: [
     ProductOptionModal

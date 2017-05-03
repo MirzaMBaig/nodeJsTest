@@ -24,12 +24,17 @@ export class ProductDetail implements OnInit, OnDestroy {
 
   productUrl = "product";
   productDetail: Product;
+  sub: any;
+  id: number;
+  selectedSku: Sku;
+
 
   inventoryTypes: Array<String> = ["No Value Selected", "Always Available", "Check Quantity", "Unavailable"];
   dimensionUnits: Array<String> = ["No Value Selected", "Centimeters", "Feet", "Inches", "Meters"];
   weightUnits: Array<String> = ["No Value Selected", "Kilograms", "Pounds"];
 
   productOptionsSource: LocalDataSource = new LocalDataSource();
+  skuSource: LocalDataSource = new LocalDataSource();
 
   settings = {
     mode: 'external', // inline|external|click-to-edit
@@ -70,11 +75,52 @@ export class ProductDetail implements OnInit, OnDestroy {
     }
   };
 
+  skuSettings = {
+    mode: 'external', // inline|external|click-to-edit
+    selectMode: 'single', // single|multi
+    noDataMessage: "no skus for this product, please add",
+    actions: {
+      delete: false,
+    },
+    add: {
+      addButtonContent: '<i class="ion-ios-plus-outline"></i>',
+      createButtonContent: '<i class="ion-checkmark"></i>',
+      cancelButtonContent: '<i class="ion-close"></i>',
+      confirmCreate: true,
+    },
+
+    columns: {
+      name: {
+        title: 'Name',
+        type: 'string'
+      },
+      cost: {
+        title: 'Cost',
+        type: 'number'
+      },
+      sellingPrice: {
+        title: 'Price',
+        type: 'number'
+      },
+    },
+    pager: {
+      perPage: 10
+    }
+  };
+
 
   ngOnInit(): void {
+    this.sub = this.route.params.subscribe(params => {
+
+      if (params['id'] != null) {
+        this.id = +params['id'];
+        this.getProductForId(this.id);
+      }
+    });
   }
 
   ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 
 
@@ -98,7 +144,7 @@ export class ProductDetail implements OnInit, OnDestroy {
       url: null,
       defaultCategoryId: null,
       defaultSkuId: null,
-      productOptions: null,
+      productOptions: [],
       productCategories: null,
       skus: null,
       archived: null,
@@ -143,42 +189,35 @@ export class ProductDetail implements OnInit, OnDestroy {
         fulfillmentType: [this.productDetail.defaultSku.fulfillmentType],
         weight: [this.productDetail.defaultSku.weight],
         weightUnitOfMeasure: [this.productDetail.defaultSku.weightUnitOfMeasure],
+        skus: this.formBuilder.array([]),
       }),
 
     });
-    this.productOptionsSource.load(this.productDetail.productOptions ? this.productDetail.productOptions : []);
+    this.productOptionsSource.load(this.productDetail.productOptions);
   }
 
   onSubmitProduct(): void {
-    console.log("submit called");
+
     this.productDetail = this.productForm.value;
     this.productDetail.defaultSku.activeStartDate = this.dateFormatter.format(this.productForm.controls.defaultSku.controls["activeStartDate"].value);
     this.productDetail.defaultSku.activeEndDate = this.dateFormatter.format(this.productForm.controls.defaultSku.controls["activeEndDate"].value);
 
-    this.productOptionsSource.getAll().then(data => {
-      this.productDetail.productOptions = data;
-      this.saveOrUpdateProduct(RequestMethod.Post);
-    });
-
-    console.log(this.productDetail);
+    this.saveOrUpdateProduct(RequestMethod.Post);
 
   }
 
   private saveOrUpdateProduct(method: RequestMethod) {
-    console.log("saveOrUpdateProduct");
 
     this.httpService
       .request(this.productUrl, this.productDetail, method)
       .then(data => {
-        this.productDetail = data;
+        this.productDetail = <Product>data;
         this.createForm();
       })
       .catch(err => console.log(err));
   }
 
   addNewProductOption(event): void {
-
-    console.log("haow");
 
     let poModel = this.poModal.open(ProductOptionModal, {
       size: 'lg',
@@ -190,5 +229,22 @@ export class ProductDetail implements OnInit, OnDestroy {
     }).catch(err => console.log(err));
   }
 
+  addNewSku(event): void {
+    console.log("adding sku");
+  }
+
+  addNewSku(event): void {
+    console.log("adding sku");
+  }
+
+  private getProductForId(id) {
+    this.httpService
+      .get('product/id/' + id)
+      .then(data => {
+        this.productDetail = <Product>data;
+        this.createForm();
+      })
+      .catch(err => console.log(err));
+  }
 
 }

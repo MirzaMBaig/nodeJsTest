@@ -1,6 +1,6 @@
 import {Component, Injectable, OnInit} from "@angular/core";
 import {ServerDataSource} from "ng2-smart-table";
-import "style-loader!./product.scss";
+import "style-loader!./products.scss";
 import {Router} from "@angular/router";
 import {HttpService} from "../http/HttpService";
 import {ProductService} from "./products.service";
@@ -8,7 +8,7 @@ import Product = ProductModel.Product;
 
 
 @Component({
-  selector: 'product',
+  selector: 'products',
   templateUrl: './products.html',
 })
 
@@ -38,34 +38,14 @@ export class Products implements OnInit {
     },
 
     columns: {
-      attributeName: {
+      name: {
         title: 'Name',
-        type: 'string'
-      },
-      optionType: {
-        title: 'Parent Category',
-        type: 'string'
-      },
-      url: {
-        title: 'URL',
-        type: 'string'
-      },
-      parentCategory: {
-        title: 'Parent Category',
         type: 'string'
       },
       manufacturer: {
         title: 'Manufacturer',
         type: 'string'
       },
-      mrp: {
-        title: 'MRP',
-        type: 'string'
-      },
-      price: {
-        title: 'Price',
-        type: 'string'
-      }
     },
     pager: {
       perPage: 10
@@ -82,15 +62,15 @@ export class Products implements OnInit {
 
   ngOnInit(): void {
     this.source = new ServerDataSource(this.http.getHttp(), {
-      endPoint: this.http.remoteUrl().concat('admin/productOption/page'),
-      dataKey: 'content',
+      endPoint: this.http.remoteUrl().concat('product/all'),
+      //dataKey: 'content',`
       pagerPageKey: 'page',
       pagerLimitKey: 'size',
       totalKey: 'totalElements'
     });
   }
 
-  onDeleteConfirm(event): void {
+  onProductDeleteConfirm(event): void {
     if (window.confirm('Are you sure you want to delete?')) {
       event.confirm.resolve();
     } else {
@@ -98,16 +78,16 @@ export class Products implements OnInit {
     }
   }
 
-  onRowSelect(event): void {
+  onPoductRowSelect(event): void {
     this.product = event.data;
   }
 
-  editRow(event): void {
+  editPoduct(event): void {
     this.product = event.data;
     this.router.navigate(['/pages/productDetail', {'id': this.product.id}]);
   }
 
-  addNew(event): void {
+  addProduct(event): void {
     this.product = event.data;
     this.router.navigate(['/pages/productDetail']);
   }

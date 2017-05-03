@@ -142,7 +142,7 @@ export class ProductOptionDetail implements OnInit, OnChanges, OnDestroy {
     this.httpService
       .request(this.productOptionUrl, this.poDetail, method)
       .then(data => {
-        this.poDetail = data;
+        this.poDetail = <ProductOption>data;
         this.createForm();
       })
       .catch(err => console.log(err));
@@ -152,7 +152,7 @@ export class ProductOptionDetail implements OnInit, OnChanges, OnDestroy {
     this.httpService
       .get('product/option/id/' + id)
       .then(data => {
-        this.poDetail = data;
+        this.poDetail = <ProductOption>data;
         this.createForm();
       })
       .catch(err => console.log(err));

@@ -7,8 +7,7 @@ import {routing} from "./productOptionDetail.routing";
 import {ProductOptionDetail} from "./productOptionDetail.component";
 import {ProductOptionDetailService} from "./productOptionDetail.service";
 import {HttpService} from "../http/HttpService";
-import {ServerResponseBarService} from "../serverResponseBar/serverResponseBar.service";
-import {ServerResponseBar} from "../serverResponseBar/serverResponseBar.component";
+import {ServerResponseBarModule} from "../serverResponseBar/serverResponseBar.module";
 
 @NgModule({
   imports: [
@@ -17,16 +16,16 @@ import {ServerResponseBar} from "../serverResponseBar/serverResponseBar.componen
     routing,
     Ng2SmartTableModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    ServerResponseBarModule
   ],
   declarations: [
-    ProductOptionDetail,
-    ServerResponseBar
+    ProductOptionDetail
+
   ],
   providers: [
     ProductOptionDetailService,
-    HttpService,
-    ServerResponseBarService
+    HttpService
   ]
 })
 export class ProductOptionDetailModule {
