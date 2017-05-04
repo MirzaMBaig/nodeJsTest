@@ -26,7 +26,7 @@
                   </div>
                   <div class="form-group" [ngClass]="{'has-error':!productForm.controls['description'].valid}">
                     <label for="description">Description</label>
-                    <textarea class="form-control" id="description" placeholder="description"
+                    <textarea class="form-control" placeholder="description" name="description"
                               formControlName="description"></textarea>
                   </div>
                   <div class="form-group" [ngClass]="{'has-error':!productForm.controls['defaultCategoryId'].valid}">
@@ -96,7 +96,7 @@
                     <label for="activeStartDate">Start Date</label>
                     <div id="activeStartDate" class="input-group">
                       <input type="text" class="form-control" placeholder="dd-mm-yyyy"
-                             formControlName="activeStartDate"  ngbDatepicker #d="ngbDatepicker" >
+                             formControlName="activeStartDate" ngbDatepicker #d="ngbDatepicker">
 
                       <div class="input-group-addon" (click)="d.toggle()">
                         <span class="fa fa-calendar" aria-hidden="true"></span>
@@ -132,14 +132,16 @@
                     <input type="text" class="form-control" id="msrPrice" name="msrPrice" placeholder="MSRP"
                            formControlName="msrPrice" data-tooltip-content="Manufacture's suggested retail price">
                   </div>
-                  <div class="form-group" [ngClass]="{'has-error':!productForm.controls.defaultSku.controls['sellingPrice'].valid}">
+                  <div class="form-group"
+                       [ngClass]="{'has-error':!productForm.controls.defaultSku.controls['sellingPrice'].valid}">
                     <label for="sellingPrice">Price</label>
                     <input type="text" class="form-control" id="sellingPrice" name="sellingPrice"
                            placeholder="Sale Price"
                            formControlName="sellingPrice">
                   </div>
 
-                  <div class="form-group" [ngClass]="{'has-error':!productForm.controls.defaultSku.controls['cost'].valid}">
+                  <div class="form-group"
+                       [ngClass]="{'has-error':!productForm.controls.defaultSku.controls['cost'].valid}">
                     <label for="cost">Cost</label>
                     <input type="text" class="form-control" id="cost" name="cost" placeholder="Cost"
                            formControlName="cost">
@@ -194,62 +196,94 @@
       <ngb-tab title="Skus">
         <template ngbTabContent>
           <div class="row">
-          <div class="col-md-6">
+            <div class="col-md-4">
 
-            <ba-card title="Skus" baCardClass="with-scroll">
-              <ng2-smart-table [settings]="skuSettings" [source]="skuSource"
-                               (create)="addNewSku($event)"></ng2-smart-table>
-            </ba-card>
+              <ba-card title="Skus" baCardClass="with-scroll">
+                <ng2-smart-table [settings]="skuSettings" [source]="skuSource"
+                                 (create)="addNewSku($event)" (rowSelect)="editNewSku($event)"></ng2-smart-table>
+              </ba-card>
             </div>
-            <div class="col-md-6">
-              <div>
-                <ba-card title="General" baCardClass="with-scroll">
-                  <div class="form-group" [ngClass]="{'has-error':!productForm.controls['name'].valid}">
-                    <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Name"
-                           formControlName="name">
-                  </div>
-                  <div class="form-group" [ngClass]="{'has-error':!productForm.controls['description'].valid}">
-                    <label for="description">Description</label>
-                    <textarea class="form-control" id="description" placeholder="description"
-                              formControlName="description"></textarea>
-                  </div>
-                  <div class="form-group" [ngClass]="{'has-error':!productForm.controls['defaultCategoryId'].valid}">
-                    <label for="defaultCategoryId">Default Parent Category</label>
-                    <input type="text" class="form-control" id="defaultCategoryId"
-                           placeholder="Default Parent Category"
-                           formControlName="defaultCategoryId">
-                  </div>
-                  <div class="form-group" formGroupName="defaultSku">
-                    <label for="defaultSkuName">Default Sku</label>
-                    <input type="text" class="form-control" id="defaultSkuName"
-                           placeholder="Default Sku Name"
-                           formControlName="defaultSkuName">
-                  </div>
-                  <div class="form-group" [ngClass]="{'has-error':!productForm.controls['manufacture'].valid}">
-                    <label for="manufacture">Manufacturer</label>
-                    <input type="text" class="form-control" id="manufacture"
-                           placeholder="Manufacturer"
-                           formControlName="manufacture">
-                  </div>
-                  <label>Override generated url </label>
-                  <div class="input-demo radio-demo row">
-                    <div class="col-md-4">
-                      <label class="radio-inline custom-radio nowrap">
-                        <input type="radio" name="overrideGeneratedUrl" [value]="true"
-                               formControlName="overrideGeneratedUrl">
-                        <span>Yes</span>
-                      </label>
+
+            <div class="col-md-8" *ngIf="updatedSku">
+              <ngb-tabset>
+                <ngb-tab title="General">
+                  <template ngbTabContent>
+
+                    <div>
+                      <ba-card title="General" baCardClass="with-scroll">
+
+                        <div class="form-group" [ngClass]="{'has-error':!productForm.controls['name'].valid}">
+                          <label for="name">Sku Name</label>
+                          <input [(ngModel)]="updatedSku.name" class="form-control" name="name" placeholder="Name"
+                                 [ngModelOptions]="{standalone: true}">
+                        </div>
+
+                        <div class="form-group" [ngClass]="{'has-error':!productForm.controls['description'].valid}">
+                          <label for="description">Description</label>
+                          <textarea class="form-control" id="description" placeholder="description"
+                                    [(ngModel)]="updatedSku.description"
+                                    [ngModelOptions]="{standalone: true}"></textarea>
+                        </div>
+                      </ba-card>
+                      <ba-card title="Primary Image" baCardClass="with-scroll">
+                        <img src="" alt="primary image"/>
+                      </ba-card>
+                      <div formGroupName="defaultSku">
+                        <ba-card title="Financial">
+                          <label>Taxable</label>
+                          <div class="input-demo radio-demo row">
+                            <div class="col-md-4">
+                              <label class="radio-inline custom-radio nowrap">
+                                <input type="radio" name="taxableFlag" [value]="true"
+                                       [(ngModel)]="updatedSku.taxableFlag"
+                                       [ngModelOptions]="{standalone: true}">
+                                <span>Yes</span>
+                              </label>
+                            </div>
+                            <div class="col-md-4">
+                              <label class="radio-inline custom-radio nowrap">
+                                <input type="radio" name="taxableFlag" [value]="false"
+                                       [(ngModel)]="updatedSku.taxableFlag"
+                                       [ngModelOptions]="{standalone: true}">
+                                <span>No</span>
+                              </label>
+                            </div>
+                          </div>
+                        </ba-card>
+                        <ba-card title="Active date range">
+                          <div class="form-group">
+                            <label for="activeStartDate">Start Date</label>
+                            <div id="activeStartDate" class="input-group">
+                              <input type="text" class="form-control" placeholder="dd-mm-yyyy"
+                                     [(ngModel)]="updatedSku.activeStartDate" ngbDatepicker #d="ngbDatepicker"
+                                     [ngModelOptions]="{standalone: true}">
+
+                              <div class="input-group-addon" (click)="d.toggle()">
+                                <span class="fa fa-calendar" aria-hidden="true"></span>
+                              </div>
+
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="activeEndDate">End Date</label>
+                            <div class="input-group">
+                              <input id="activeEndDate" class="form-control" placeholder="dd-mm-yyyy"
+                                     [(ngModel)]="updatedSku.activeEndDate" ngbDatepicker #d1="ngbDatepicker"
+                                     [ngModelOptions]="{standalone: true}">
+
+                              <div class="input-group-addon" (click)="d1.toggle()">
+                                <span class="fa fa-calendar" aria-hidden="true"></span>
+                              </div>
+                            </div>
+                          </div>
+                        </ba-card>
+                      </div>
                     </div>
-                    <div class="col-md-4">
-                      <label class="radio-inline custom-radio nowrap">
-                        <input type="radio" name="overrideGeneratedUrl" [value]="false"
-                               formControlName="overrideGeneratedUrl">
-                        <span>No</span>
-                      </label>
-                    </div>
-                  </div>
-                </ba-card>
+                  </template>
+                </ngb-tab>
+              </ngb-tabset>
+              <div align="center">
+                <button type="button" class="btn btn-danger" (click)="updateSku()">Update Sku</button>
               </div>
             </div>
           </div>

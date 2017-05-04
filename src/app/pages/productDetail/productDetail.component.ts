@@ -1,5 +1,5 @@
-import {Component, OnInit, OnDestroy} from "@angular/core";
-import {FormGroup, FormBuilder, Validators} from "@angular/forms";
+import {Component, OnInit, OnDestroy, Input} from "@angular/core";
+import {FormGroup, FormBuilder, Validators, FormArray} from "@angular/forms";
 import {ProductDetailService} from "./producdDetail.service";
 import {ActivatedRoute} from "@angular/router";
 import {HttpService} from "../http/HttpService";
@@ -26,7 +26,9 @@ export class ProductDetail implements OnInit, OnDestroy {
   productDetail: Product;
   sub: any;
   id: number;
+  updatedSku: Sku;
   selectedSku: Sku;
+
 
 
   inventoryTypes: Array<String> = ["No Value Selected", "Always Available", "Check Quantity", "Unavailable"];
@@ -94,10 +96,6 @@ export class ProductDetail implements OnInit, OnDestroy {
         title: 'Name',
         type: 'string'
       },
-      cost: {
-        title: 'Cost',
-        type: 'number'
-      },
       sellingPrice: {
         title: 'Price',
         type: 'number'
@@ -115,6 +113,9 @@ export class ProductDetail implements OnInit, OnDestroy {
       if (params['id'] != null) {
         this.id = +params['id'];
         this.getProductForId(this.id);
+        this.createForm();
+      }else {
+        this.createForm();
       }
     });
   }
@@ -146,14 +147,13 @@ export class ProductDetail implements OnInit, OnDestroy {
       defaultSkuId: null,
       productOptions: [],
       productCategories: null,
-      skus: null,
+      skus: [new Sku()],
       archived: null,
       canSellWithoutOptions: false,
       isFeaturedProduct: false,
       id: null,
       defaultSku: new Sku(),
     };
-    this.createForm();
   }
 
   createForm() {
@@ -163,13 +163,16 @@ export class ProductDetail implements OnInit, OnDestroy {
       description: [this.productDetail.description, Validators.required],
       manufacture: [this.productDetail.manufacture],
       productOptions: [this.productDetail.productOptions],
+      skus: [this.productDetail.skus],
       archived: [this.productDetail.archived],
       isFeaturedProduct: [this.productDetail.isFeaturedProduct],
       overrideGeneratedUrl: [this.productDetail.overrideGeneratedUrl],
       defaultCategoryId: [this.productDetail.defaultCategoryId, Validators.required],
       productOptionsSource: [this.productDetail.productOptions],
+      skuSource: [this.productDetail.skus],
       productCategories: [this.productDetail.productCategories],
       defaultSku: this.formBuilder.group({
+        id: [this.productDetail.defaultSku.id],
         defaultSkuName: [this.productDetail.defaultSku.name],
         activeStartDate: [this.dateFormatter.parse(this.productDetail.defaultSku.activeStartDate)],
         activeEndDate: [this.dateFormatter.parse(this.productDetail.defaultSku.activeEndDate)],
@@ -189,11 +192,11 @@ export class ProductDetail implements OnInit, OnDestroy {
         fulfillmentType: [this.productDetail.defaultSku.fulfillmentType],
         weight: [this.productDetail.defaultSku.weight],
         weightUnitOfMeasure: [this.productDetail.defaultSku.weightUnitOfMeasure],
-        skus: this.formBuilder.array([]),
       }),
 
     });
     this.productOptionsSource.load(this.productDetail.productOptions);
+    this.skuSource.load(this.productDetail.skus);
   }
 
   onSubmitProduct(): void {
@@ -231,10 +234,18 @@ export class ProductDetail implements OnInit, OnDestroy {
 
   editNewSku(event): void {
     console.log("edit sku");
+    console.log(event);
+    this.updatedSku = event.data;
+    this.selectedSku = event.data;
+
   }
 
   addNewSku(event): void {
     console.log("adding sku");
+  }
+
+  updateSku() {
+    this.skuSource.update(this.selectedSku, this.updatedSku);
   }
 
   private getProductForId(id) {
@@ -246,5 +257,6 @@ export class ProductDetail implements OnInit, OnDestroy {
       })
       .catch(err => console.log(err));
   }
+
 
 }

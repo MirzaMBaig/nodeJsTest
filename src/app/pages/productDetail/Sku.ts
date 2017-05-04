@@ -71,6 +71,7 @@ export class Sku {
 
   constructor(){
     this.defaultSku = true;
+    this.name = "mySku";
   }
 
 }

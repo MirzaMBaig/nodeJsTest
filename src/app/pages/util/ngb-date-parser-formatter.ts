@@ -13,10 +13,6 @@ export class NgbDateISOParserFormatter extends NgbDateParserFormatter {
   }
 
   format(date: NgbDateStruct): string {
-
-    if(date){
-      console.log(`${isNumber(date.day) ? padNumber(date.day) : ''}-${isNumber(date.month) ? padNumber(date.month) : ''}-${date.year}`);
-    }
     return date ?
       `${isNumber(date.day) ? padNumber(date.day) : ''}-${isNumber(date.month) ? padNumber(date.month) : ''}-${date.year}` : '';
   }
