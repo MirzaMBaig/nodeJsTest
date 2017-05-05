@@ -1,5 +1,5 @@
-import {Component, OnInit, OnDestroy, Input} from "@angular/core";
-import {FormGroup, FormBuilder, Validators, FormArray} from "@angular/forms";
+import {Component, OnInit, OnDestroy} from "@angular/core";
+import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {ProductDetailService} from "./producdDetail.service";
 import {ActivatedRoute} from "@angular/router";
 import {HttpService} from "../http/HttpService";
@@ -28,7 +28,6 @@ export class ProductDetail implements OnInit, OnDestroy {
   id: number;
   updatedSku: Sku;
   selectedSku: Sku;
-
 
 
   inventoryTypes: Array<String> = ["No Value Selected", "Always Available", "Check Quantity", "Unavailable"];
@@ -114,7 +113,7 @@ export class ProductDetail implements OnInit, OnDestroy {
         this.id = +params['id'];
         this.getProductForId(this.id);
         this.createForm();
-      }else {
+      } else {
         this.createForm();
       }
     });
@@ -174,8 +173,8 @@ export class ProductDetail implements OnInit, OnDestroy {
       defaultSku: this.formBuilder.group({
         id: [this.productDetail.defaultSku.id],
         defaultSkuName: [this.productDetail.defaultSku.name],
-        activeStartDate: [this.dateFormatter.parse(this.productDetail.defaultSku.activeStartDate)],
-        activeEndDate: [this.dateFormatter.parse(this.productDetail.defaultSku.activeEndDate)],
+        activeStartDate: [this.productDetail.defaultSku.activeStartDate],
+        activeEndDate: [this.productDetail.defaultSku.activeEndDate],
         taxableFlag: [this.productDetail.defaultSku.taxableFlag],
         msrPrice: [this.productDetail.defaultSku.msrPrice],
         sellingPrice: [this.productDetail.defaultSku.sellingPrice, Validators.required],
@@ -202,9 +201,6 @@ export class ProductDetail implements OnInit, OnDestroy {
   onSubmitProduct(): void {
 
     this.productDetail = this.productForm.value;
-    this.productDetail.defaultSku.activeStartDate = this.dateFormatter.format(this.productForm.controls.defaultSku.controls["activeStartDate"].value);
-    this.productDetail.defaultSku.activeEndDate = this.dateFormatter.format(this.productForm.controls.defaultSku.controls["activeEndDate"].value);
-
     this.saveOrUpdateProduct(RequestMethod.Post);
 
   }
@@ -233,19 +229,23 @@ export class ProductDetail implements OnInit, OnDestroy {
   }
 
   editNewSku(event): void {
-    console.log("edit sku");
-    console.log(event);
-    this.updatedSku = event.data;
-    this.selectedSku = event.data;
-
+    if(event.data){
+      this.updatedSku = event.data;
+      this.selectedSku = event.data;
+    }
   }
 
-  addNewSku(event): void {
-    console.log("adding sku");
+  addNewSku(): void {
+    this.updatedSku = new Sku();
+    this.selectedSku = new Sku();
   }
 
   updateSku() {
-    this.skuSource.update(this.selectedSku, this.updatedSku);
+    if (!this.updatedSku.id) {
+      this.skuSource.prepend(this.updatedSku);
+    } else {
+      this.skuSource.update(this.selectedSku, this.updatedSku);
+    }
   }
 
   private getProductForId(id) {

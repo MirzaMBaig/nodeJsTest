@@ -1,11 +1,12 @@
 import ProductOptionValue = ProductOptionModel.ProductOptionValue;
+import {NgbDate} from "@ng-bootstrap/ng-bootstrap/datepicker/ngb-date";
 
 export class Sku {
   id: number;
 
-  activeEndDate: string;
+  activeEndDate: NgbDate;
 
-  activeStartDate: string;
+  activeStartDate: NgbDate;
 
   availableFlag: boolean;
 
@@ -68,10 +69,5 @@ export class Sku {
   defaultSku: boolean;
 
   poductOptionsValues: Array<ProductOptionValue>;
-
-  constructor(){
-    this.defaultSku = true;
-    this.name = "mySku";
-  }
 
 }

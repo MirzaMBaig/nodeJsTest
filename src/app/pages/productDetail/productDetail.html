@@ -200,7 +200,7 @@
 
               <ba-card title="Skus" baCardClass="with-scroll">
                 <ng2-smart-table [settings]="skuSettings" [source]="skuSource"
-                                 (create)="addNewSku($event)" (rowSelect)="editNewSku($event)"></ng2-smart-table>
+                                 (create)="addNewSku()" (rowSelect)="editNewSku($event)"></ng2-smart-table>
               </ba-card>
             </div>
 
@@ -253,25 +253,24 @@
                         <ba-card title="Active date range">
                           <div class="form-group">
                             <label for="activeStartDate">Start Date</label>
-                            <div id="activeStartDate" class="input-group">
+                            <div class="input-group">
                               <input type="text" class="form-control" placeholder="dd-mm-yyyy"
-                                     [(ngModel)]="updatedSku.activeStartDate" ngbDatepicker #d="ngbDatepicker"
+                                     [(ngModel)]="updatedSku.activeStartDate" ngbDatepicker #skuActiveStartDate="ngbDatepicker"
                                      [ngModelOptions]="{standalone: true}">
 
-                              <div class="input-group-addon" (click)="d.toggle()">
+                              <div class="input-group-addon" (click)="skuActiveStartDate.toggle()">
                                 <span class="fa fa-calendar" aria-hidden="true"></span>
                               </div>
-
                             </div>
                           </div>
                           <div class="form-group">
                             <label for="activeEndDate">End Date</label>
                             <div class="input-group">
-                              <input id="activeEndDate" class="form-control" placeholder="dd-mm-yyyy"
-                                     [(ngModel)]="updatedSku.activeEndDate" ngbDatepicker #d1="ngbDatepicker"
+                              <input class="form-control" placeholder="dd-mm-yyyy"
+                                     [(ngModel)]="updatedSku.activeEndDate" ngbDatepicker #skuActiveEndDate="ngbDatepicker"
                                      [ngModelOptions]="{standalone: true}">
 
-                              <div class="input-group-addon" (click)="d1.toggle()">
+                              <div class="input-group-addon" (click)="skuActiveEndDate.toggle()">
                                 <span class="fa fa-calendar" aria-hidden="true"></span>
                               </div>
                             </div>
