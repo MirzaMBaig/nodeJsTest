@@ -27,7 +27,7 @@ export const PAGES_MENU = [
         },
         children: [
           {
-            path: ['/login'],
+            path: ['categoryList'],
             data: {
               menu: {
                 title: 'Category',

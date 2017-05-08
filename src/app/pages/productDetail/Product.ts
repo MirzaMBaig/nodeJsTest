@@ -1,6 +1,6 @@
 import ProductOption = ProductOptionModel.ProductOption;
-import Category = CategoryModel.Category;
 import {Sku} from "./Sku";
+import {Category} from "../category/category";
 
 export class Product {
 

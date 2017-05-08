@@ -1,4 +1,4 @@
-import {Headers, Http, RequestMethod, Response} from "@angular/http";
+import {Headers, Http, RequestMethod, Response, URLSearchParams} from "@angular/http";
 import {Injectable} from "@angular/core";
 import {ErrorResponse} from "./ErrorResponse";
 import {ServerResponseBarService} from "../serverResponseBar/serverResponseBar.service";
@@ -33,7 +33,7 @@ export class HttpService {
     return this.actionUrl;
   }
 
-  public request(url: string, requestBody: any, method: RequestMethod): Promise<any> {
+  public requestWithParam(url: string, requestBody: any, method: RequestMethod, search: URLSearchParams): Promise<any> {
 
     this.serverResponseService.resetServerMessage();
 
@@ -45,11 +45,16 @@ export class HttpService {
       {
         body: JSON.stringify(requestBody),
         headers: this.getHeader(),
-        method: method
+        method: method,
+        search: search
       })
       .map(res => res.json())
       .toPromise()
       .catch(error => this.handleError(error));
+  };
+
+  public request(url: string, requestBody: any, method: RequestMethod): Promise<any> {
+    return this.requestWithParam(url, requestBody, method, new URLSearchParams);
   };
 
   public post(url: string, requestBody: any): Promise<any> {
@@ -65,6 +70,11 @@ export class HttpService {
   public get(url: string): Promise<any> {
     this.serverResponseService.resetServerMessage();
     return this.request(url, "", RequestMethod.Get);
+  };
+
+  public getWithParam(url: string, search: URLSearchParams): Promise<any> {
+    this.serverResponseService.resetServerMessage();
+    return this.requestWithParam(url, "", RequestMethod.Get, search);
   };
 
   public handleError(error: Response) {

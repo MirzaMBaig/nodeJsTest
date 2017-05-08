@@ -16,7 +16,14 @@ export const routes: Routes = [
     children: [
       {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
       {path: 'dashboard', loadChildren: 'app/pages/dashboard/dashboard.module#DashboardModule'},
-
+      {
+        path: 'categoryList',
+        loadChildren: 'app/pages/category/categoryList.module#CategoryListModule'
+      },
+      {
+        path: 'categoryDetail',
+        loadChildren: 'app/pages/category/categoryDetail/categoryDetail.module#CategoryDetailModule'
+      },
       {
         path: 'products',
         loadChildren: 'app/pages/products/products.module#ProductsModule'
