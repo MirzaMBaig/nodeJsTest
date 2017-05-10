@@ -1,10 +1,10 @@
-export class CategoryXProduct {
+export class CategoryXRef {
 
   id: number;
   defaultReference: boolean;
   displayOrder: number;
   category: string;
-  product: string;
+  subCategory: string;
   categoryId: number;
-  productId: number;
+  subCategoryId: number;
 }

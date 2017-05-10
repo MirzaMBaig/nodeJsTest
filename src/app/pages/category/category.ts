@@ -1,3 +1,6 @@
+import {CategoryXProduct} from "./categoryDetail/categoryXProduct";
+import {CategoryXRef} from "./categoryDetail/categoryXRef";
+
 export class Category {
 
   id: number;
@@ -30,6 +33,9 @@ export class Category {
 
   name: string;
 
-  defaultParentCategoryId: number;
+  defaultParentCategory: Category;
 
+  allProductXref: Array<CategoryXProduct>;
+
+  allCategoryXref: Array<CategoryXRef>;
 }

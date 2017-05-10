@@ -8,24 +8,31 @@ import {Category} from "../category";
 import {HttpService} from "../../http/HttpService";
 import {CategoryDetailService} from "./categoryDetail.service";
 import {CategoryGeneral} from "./categoryGeneral.component";
+import {CategoryXProductModal} from "./categoryXProductModal/categoryXProduct-modal.component";
 
 @Component({
   selector: 'categoryDetail',
   templateUrl: './categoryDetail.html',
   entryComponents: [
-    //CategoryGeneral
+    CategoryXProductModal
   ]
 })
 
 export class CategoryDetail implements OnInit, OnDestroy {
 
-  categoryUrl = "";
+  categoryUrl = "admin/category";
   categoryDetail: Category;
   sub: any;
   id: number;
 
   @Output("categoryDetailForm")
   public categoryDetailForm: FormGroup;
+
+  @Output("categoryXProductSource")
+  public categoryXProductSource: LocalDataSource = new LocalDataSource();
+
+  @Output("categoryXRefSource")
+  public categoryXRefSource: LocalDataSource = new LocalDataSource();
 
   categoryDetailSource: LocalDataSource = new LocalDataSource();
 
@@ -61,14 +68,16 @@ export class CategoryDetail implements OnInit, OnDestroy {
       displayTemplate: null,
       externalId: null,
       fulfillmentType: null,
-      inventoryType: null,
+      inventoryType: "No Value Selected",
       longDescription: null,
-      overrideGeneratedUrl: null,
+      overrideGeneratedUrl: false,
       taxCode: null,
       url: null,
       urlKey: null,
       name: null,
-      defaultParentCategoryId: null,
+      defaultParentCategory: null,
+      allProductXref: [],
+      allCategoryXref: []
     };
   }
 
@@ -78,22 +87,24 @@ export class CategoryDetail implements OnInit, OnDestroy {
       name: [this.categoryDetail.name, Validators.required],
       description: [this.categoryDetail.description, Validators.required],
       overrideGeneratedUrl: [this.categoryDetail.overrideGeneratedUrl],
-      parentCategory: [this.categoryDetail.defaultParentCategoryId],
+      parentCategory: [this.categoryDetail.defaultParentCategory?this.categoryDetail.defaultParentCategory.name:null],
       url: [this.categoryDetail.url],
       activeStartDate: [this.categoryDetail.activeStartDate],
       activeEndDate: [this.categoryDetail.activeEndDate],
       externalId: [this.categoryDetail.externalId],
-      //products
+      allProductXref:[this.categoryDetail.allProductXref],
       displayTemplate: [this.categoryDetail.displayTemplate],
       inventoryType: [this.categoryDetail.inventoryType],
-      fulfillmentType: [this.categoryDetail.fulfillmentType]
+      fulfillmentType: [this.categoryDetail.fulfillmentType],
+      allCategoryXref:[this.categoryDetail.allCategoryXref]
     });
-
+    this.categoryXProductSource.load(this.categoryDetail.allProductXref);
+    this.categoryXRefSource.load(this.categoryDetail.allCategoryXref);
   }
 
   onSubmitCategoryDetail(): void {
     this.categoryDetail = this.categoryDetailForm.value;
-    this.saveOrUpdateCategoryDetail(RequestMethod.Post);
+    this.saveOrUpdateCategoryDetail(this.id?RequestMethod.Put:RequestMethod.Post);
   }
 
   private saveOrUpdateCategoryDetail(method: RequestMethod) {

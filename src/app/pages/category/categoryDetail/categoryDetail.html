@@ -20,7 +20,10 @@
       </ngb-tab>
       <ngb-tab title="Products">
         <template ngbTabContent>
-          <categoryXProducts [categoryDetailForm]="categoryDetailForm"></categoryXProducts>
+          <categoryXProducts [categoryDetailForm]="categoryDetailForm"
+                             [categoryXProductSource] = "categoryXProductSource">
+
+          </categoryXProducts>
         </template>
       </ngb-tab>
       <ngb-tab title="Marketing">
@@ -40,7 +43,10 @@
       </ngb-tab>
       <ngb-tab title="SubCategories">
         <template ngbTabContent>
-          SubCategories
+          <categoryXRef [categoryDetailForm]="categoryDetailForm"
+                             [categoryXRefSource] = "categoryXRefSource">
+
+          </categoryXRef>
         </template>
       </ngb-tab>
     </ngb-tabset>

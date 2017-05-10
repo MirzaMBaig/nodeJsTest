@@ -14,6 +14,8 @@ import {HttpService} from "../../http/HttpService";
 import {NgaModule} from "../../../theme/nga.module";
 import {CategoryGeneral} from "./categoryGeneral.component";
 import {CategoryXProducts} from "./categoryXProducts.component";
+import {CategoryXRef} from "./categoryXRef.component";
+import {CategoryXProductModal} from "./categoryXProductModal/categoryXProduct-modal.component";
 
 
 @NgModule({
@@ -34,12 +36,14 @@ import {CategoryXProducts} from "./categoryXProducts.component";
   declarations: [
     CategoryDetail,
     CategoryGeneral,
-    CategoryXProducts
+    CategoryXProducts,
+    CategoryXRef,
+    CategoryXProductModal
   ],
   providers: [CategoryDetailService, HttpService
   ],
   entryComponents: [
-
+    CategoryXProductModal
   ]
 })
 

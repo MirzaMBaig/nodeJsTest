@@ -1,0 +1,26 @@
+<div class="al-content">
+  <div class="modal-header">
+    <h4 class="modal-title">Add Products</h4>
+    <button class="close" aria-label="Close" (click)="closeCategoryXProductModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="widgets">
+      <div class="row">
+        <div class="col-md-12">
+          <ba-card title="Products" baCardClass="with-scroll">
+            <ng2-smart-table [settings]="categoryXProductModalSetings" [source]="categoryXProductSource"
+                             (userRowSelect)="onCategoryXProductRowSelect($event)">
+
+            </ng2-smart-table>
+          </ba-card>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary confirm-btn" (click)="closeCategoryXProductModal()">Add product</button>
+  </div>
+</div>
+<ba-back-top position="200"></ba-back-top>
