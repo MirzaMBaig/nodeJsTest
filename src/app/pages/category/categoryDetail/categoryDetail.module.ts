@@ -16,6 +16,7 @@ import {CategoryGeneral} from "./categoryGeneral.component";
 import {CategoryXProducts} from "./categoryXProducts.component";
 import {CategoryXRef} from "./categoryXRef.component";
 import {CategoryXProductModal} from "./categoryXProductModal/categoryXProduct-modal.component";
+import {CategoryXRefModal} from "./categoryXRefModal/categoryXRef-modal.component";
 
 
 @NgModule({
@@ -38,12 +39,14 @@ import {CategoryXProductModal} from "./categoryXProductModal/categoryXProduct-mo
     CategoryGeneral,
     CategoryXProducts,
     CategoryXRef,
-    CategoryXProductModal
+    CategoryXProductModal,
+    CategoryXRefModal
   ],
   providers: [CategoryDetailService, HttpService
   ],
   entryComponents: [
-    CategoryXProductModal
+    CategoryXProductModal,
+    CategoryXRefModal
   ]
 })
 

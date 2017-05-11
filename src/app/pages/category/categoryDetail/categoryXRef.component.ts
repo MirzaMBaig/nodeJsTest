@@ -1,7 +1,10 @@
 import {Component, Input, OnInit} from "@angular/core";
 import {FormGroup} from "@angular/forms";
 import {LocalDataSource} from "ng2-smart-table";
-import {CategoryXProduct} from "./categoryXProduct";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {CategoryXRefModal} from "./categoryXRefModal/categoryXRef-modal.component";
+import {Category} from "../category";
+import {CategoryXRefModel} from "./categoryXRef";
 
 @Component({
   selector: 'categoryXRef',
@@ -16,8 +19,6 @@ export class CategoryXRef implements OnInit {
 
   @Input("categoryXRefSource")
   public categoryXRefSource: LocalDataSource;
-
-  private categoryXRef: CategoryXRef;
 
   categoryXRefSettings = {
     mode: 'external', // inline|external|click-to-edit
@@ -55,8 +56,22 @@ export class CategoryXRef implements OnInit {
     }
   };
 
+  constructor(private categoryXRefModal: NgbModal) {
 
+  }
 
   ngOnInit(): void {
+  }
+
+  addCategoryXRef(event): void {
+
+    let modalRef = this.categoryXRefModal.open(CategoryXRefModal, {
+      size: 'lg',
+      backdrop: 'static'
+    });
+
+    modalRef.result.then((res) => {
+      res?this.categoryXRefSource.prepend(res):"";
+    }).catch(err => console.log(err));
   }
 }

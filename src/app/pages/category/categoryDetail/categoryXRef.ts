@@ -1,4 +1,4 @@
-export class CategoryXRef {
+export class CategoryXRefModel {
 
   id: number;
   defaultReference: boolean;

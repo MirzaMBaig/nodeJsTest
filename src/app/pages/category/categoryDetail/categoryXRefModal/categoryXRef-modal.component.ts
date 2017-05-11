@@ -3,21 +3,20 @@ import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 import {ServerDataSource} from "ng2-smart-table";
 import {Router} from "@angular/router";
 import {CategoryDetailService} from "../categoryDetail.service";
-import {Product} from "../../../productDetail/Product";
 import {HttpService} from "../../../http/HttpService";
-import {CategoryXProduct} from "../categoryXProduct";
+import {CategoryXRefModel} from "../categoryXRef";
 
 @Component({
-  selector: 'add-categoryXProduct-modal',
+  selector: 'add-categoryXRef-modal',
   styleUrls: ['./default-modal.component.scss'],
-  templateUrl: './categoryXProduct-modal.component.html',
+  templateUrl: './categoryXRef-modal.component.html',
   providers: [CategoryDetailService],
 })
 
-export class CategoryXProductModal implements OnInit {
+export class CategoryXRefModal implements OnInit {
 
 
-  categoryXProductModalSetings = {
+  categoryXRefModalSettings = {
     mode: 'external', // inline|external|click-to-edit
     selectMode: 'single', // single|multi
     actions: {
@@ -43,10 +42,6 @@ export class CategoryXProductModal implements OnInit {
       name: {
         title: 'Name',
         type: 'string'
-      },
-      url: {
-        title: 'URL',
-        type: 'string'
       }
     },
     pager: {
@@ -54,9 +49,9 @@ export class CategoryXProductModal implements OnInit {
     }
   };
 
-  categoryXProductSource: ServerDataSource;
-  categoryXProduct: CategoryXProduct;
-  displayOrderCXP: number;
+  categoryXRefSource: ServerDataSource;
+  categoryXRef: CategoryXRefModel;
+  displayOrderCXR: number;
 
   constructor(protected service: CategoryDetailService,
               private router: Router, protected http: HttpService,
@@ -65,35 +60,35 @@ export class CategoryXProductModal implements OnInit {
   }
 
   ngOnInit(): void {
-    this.categoryXProductSource = new ServerDataSource(this.http.getHttp(), {
-      endPoint: this.http.remoteUrl().concat('product/all'),
-      //dataKey: 'content',
+    this.categoryXRefSource = new ServerDataSource(this.http.getHttp(), {
+      endPoint: this.http.remoteUrl().concat('admin/category/page'),
+      dataKey: 'content',
       pagerPageKey: 'page',
       pagerLimitKey: 'size',
-      //totalKey: 'totalElements'
+      totalKey: 'totalElements'
     });
   }
 
-  onCategoryXProductRowSelect(event): void {
-    let product: Product = event.data;
-    this.categoryXProduct = {
+  onCategoryXRefRowSelect(event): void {
+    let category = event.data;
+    this.categoryXRef = {
       id: null,
       defaultReference: false,
-      displayOrder: this.displayOrderCXP,
+      displayOrder: this.displayOrderCXR,
       category: null,
-      product: product.name,
+      subCategory: category.name,
       categoryId: null,
-      productId: product.id
+      subCategoryId: category.id
 
     }
   }
 
-  closeCategoryXProductModal() {
-    this.categoryXProduct?this.categoryXProduct.displayOrder = this.displayOrderCXP:"";
-    this.activeModal.close(this.categoryXProduct);
+  closeCategoryXRefModal() {
+    this.categoryXRef?this.categoryXRef.displayOrder = this.displayOrderCXR:"";
+    this.activeModal.close(this.categoryXRef);
   }
 
-  dismissCategoryXProductModal() {
-    this.activeModal.dismiss("No Product added to category");
+  dismissCategoryXRefModal() {
+    this.activeModal.dismiss("No Child category added to category");
   }
 }

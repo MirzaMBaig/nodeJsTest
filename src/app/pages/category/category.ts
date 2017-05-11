@@ -1,5 +1,5 @@
 import {CategoryXProduct} from "./categoryDetail/categoryXProduct";
-import {CategoryXRef} from "./categoryDetail/categoryXRef";
+import {CategoryXRefModel} from "./categoryDetail/categoryXRef";
 
 export class Category {
 
@@ -37,5 +37,5 @@ export class Category {
 
   allProductXref: Array<CategoryXProduct>;
 
-  allCategoryXref: Array<CategoryXRef>;
+  allCategoryXref: Array<CategoryXRefModel>;
 }

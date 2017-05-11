@@ -14,7 +14,7 @@ import {CategoryXProductModal} from "./categoryXProductModal/categoryXProduct-mo
   selector: 'categoryDetail',
   templateUrl: './categoryDetail.html',
   entryComponents: [
-    CategoryXProductModal
+
   ]
 })
 

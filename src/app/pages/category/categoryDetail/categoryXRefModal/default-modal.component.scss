@@ -1,4 +1,5 @@
 @import "../../../../theme/sass/conf/conf";
+@import "../../../../theme/sass/bootstrap-overrides/_card";
 
 .modal-buttons .btn {
   margin-right: 20px;
@@ -6,5 +7,4 @@
 
 .modal-content {
   color: $dropdown-text;
-  background: $body-bg;
 }

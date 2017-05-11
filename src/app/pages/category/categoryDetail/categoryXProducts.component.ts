@@ -10,7 +10,6 @@ import {Product} from "../../productDetail/Product";
   selector: 'categoryXProducts',
   templateUrl: './categoryXProducts.html',
   entryComponents: [
-    CategoryXProductModal
   ]
 })
 
@@ -23,9 +22,6 @@ export class CategoryXProducts implements OnInit {
   public categoryXProductSource: LocalDataSource;
 
   categoryInventoryTypes: Array<String> = ["No Value Selected", "Always Available", "Check Quantity", "Unavailable"];
-
-  private categoryXProduct: CategoryXProduct;
-
 
   categoryXProductSettings = {
     mode: 'external', // inline|external|click-to-edit
@@ -72,24 +68,13 @@ export class CategoryXProducts implements OnInit {
 
   addCategoryXProduct(event): void {
 
-    let poModel = this.categoryXProductModal.open(CategoryXProductModal, {
+    let popupModal = this.categoryXProductModal.open(CategoryXProductModal, {
       size: 'lg',
       backdrop: 'static'
     });
 
-    poModel.result.then((res) => {
-      let product: Product = res;
-      this.categoryXProduct = {
-        id: null,
-        defaultReference: false,
-        displayOrder: 1,
-        category: null,
-        product: product.name,
-        categoryId: null,
-        productId: product.id
-
-      }
-      this.categoryXProductSource.prepend(this.categoryXProduct)
+    popupModal.result.then((res) => {
+      res?this.categoryXProductSource.prepend(res):"";
     }).catch(err => console.log(err));
   }
 }
