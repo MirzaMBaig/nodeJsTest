@@ -10,7 +10,7 @@ import {NgbDateParserFormatter, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {LocalDataSource} from "ng2-smart-table";
 import {ProductOptionModal} from "./poModal/product-options-modal.component";
 import ProductOption = ProductOptionModel.ProductOption;
-
+import {Category} from "../category/categoryDetail/category";
 
 @Component({
   selector: 'productDetail',
@@ -152,6 +152,7 @@ export class ProductDetail implements OnInit, OnDestroy {
       isFeaturedProduct: false,
       id: null,
       defaultSku: new Sku(),
+      defaultCategory: new Category(),
     };
   }
 
@@ -192,7 +193,10 @@ export class ProductDetail implements OnInit, OnDestroy {
         weight: [this.productDetail.defaultSku.weight],
         weightUnitOfMeasure: [this.productDetail.defaultSku.weightUnitOfMeasure],
       }),
-
+      defaultCategory: this.formBuilder.group({
+        defaultParentCategoryId: [this.productDetail.defaultCategory?this.productDetail.defaultCategory.id:null],
+        defaultCategoryName: [this.productDetail.defaultCategory?this.productDetail.defaultCategory.name:null],
+      }),
     });
     this.productOptionsSource.load(this.productDetail.productOptions);
     this.skuSource.load(this.productDetail.skus);

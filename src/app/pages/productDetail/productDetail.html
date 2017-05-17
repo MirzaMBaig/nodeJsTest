@@ -29,11 +29,11 @@
                     <textarea class="form-control" placeholder="description" name="description"
                               formControlName="description"></textarea>
                   </div>
-                  <div class="form-group" [ngClass]="{'has-error':!productForm.controls['defaultCategoryId'].valid}">
-                    <label for="defaultCategoryId">Default Parent Category</label>
-                    <input type="text" class="form-control" id="defaultCategoryId"
+                  <div class="form-group" formGroupName="defaultCategory">
+                    <label for="defaultCategoryName">Default Parent Category</label>
+                    <input type="text" class="form-control" id="defaultCategoryName"
                            placeholder="Default Parent Category"
-                           formControlName="defaultCategoryId">
+                           formControlName="defaultCategoryName" readonly>
                   </div>
                   <div class="form-group" formGroupName="defaultSku">
                     <label for="defaultSkuName">Default Sku</label>
@@ -136,7 +136,7 @@
                        [ngClass]="{'has-error':!productForm.controls.defaultSku.controls['sellingPrice'].valid}">
                     <label for="sellingPrice">Price</label>
                     <input type="text" class="form-control" id="sellingPrice" name="sellingPrice"
-                           placeholder="Sale Price"
+                           placeholder="Selling Price"
                            formControlName="sellingPrice">
                   </div>
 

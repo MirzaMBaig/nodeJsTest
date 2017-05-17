@@ -38,6 +38,8 @@ export class Product {
 
   defaultSku: Sku;
 
+  defaultCategory: Category;
+
   constructor(){
     this.productOptions = [];
   }

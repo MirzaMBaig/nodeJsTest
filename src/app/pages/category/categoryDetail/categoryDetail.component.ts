@@ -7,8 +7,6 @@ import {LocalDataSource} from "ng2-smart-table";
 import {Category} from "./category";
 import {HttpService} from "../../http/HttpService";
 import {CategoryDetailService} from "./categoryDetail.service";
-import {CategoryGeneral} from "./categoryGeneral.component";
-import {CategoryXProductModal} from "./categoryXProductModal/categoryXProduct-modal.component";
 
 @Component({
   selector: 'categoryDetail',
