@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from "@angular/core";
-import {FormGroup} from "@angular/forms";
+import {FormArray, FormGroup} from "@angular/forms";
 import {LocalDataSource} from "ng2-smart-table";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {CategoryXRefModal} from "./categoryXRefModal/categoryXRef-modal.component";
-import {Category} from "../category";
+import {Category} from "./category";
 import {CategoryXRefModel} from "./categoryXRef";
 
 @Component({
@@ -25,26 +25,26 @@ export class CategoryXRef implements OnInit {
     selectMode: 'single', // single|multi
     actions: {
       add: true,
-      edit: true,
+      edit: false,
       delete: true
     },
     add: {
       addButtonContent: '<i class="ion-ios-plus-outline"></i>',
-      createButtonContent: '<i class="ion-checkmark"></i>',
-      cancelButtonContent: '<i class="ion-close"></i>',
-    },
+     },
     edit: {
       editButtonContent: '<i class="ion-edit"></i>',
+      saveButtonContent: '<i class="ion-checkmark"></i>',
+      cancelButtonContent: '<i class="ion-close"></i>',
     },
     delete: {
       deleteButtonContent: '<i class="ion-trash-a"></i>',
-      confirmDelete: true
     },
 
     columns: {
       subCategory: {
         title: 'Name',
         type: 'string',
+        editable: false
       },
       displayOrder: {
         title: 'Display Order',
@@ -73,5 +73,17 @@ export class CategoryXRef implements OnInit {
     modalRef.result.then((res) => {
       res?this.categoryXRefSource.prepend(res):"";
     }).catch(err => console.log(err));
+  }
+
+  deleteCategoryXRef(event): void {
+    if (window.confirm('Are you sure you want to delete?')) {
+      let val = this.categoryDetailForm.controls['allCategoryXref'].value.filter(el => el !== event.data);
+      this.categoryXRefSource.remove(event.data).then(res=>{
+          const control = <FormArray>this.categoryDetailForm.controls['allCategoryXref'];
+          control.patchValue(val);
+        }
+      )
+        .catch(err => console.log(err));
+    }
   }
 }

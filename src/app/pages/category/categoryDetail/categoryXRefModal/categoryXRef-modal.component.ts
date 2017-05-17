@@ -52,6 +52,7 @@ export class CategoryXRefModal implements OnInit {
   categoryXRefSource: ServerDataSource;
   categoryXRef: CategoryXRefModel;
   displayOrderCXR: number;
+  subCategoryCXR: string;
 
   constructor(protected service: CategoryDetailService,
               private router: Router, protected http: HttpService,
@@ -79,8 +80,8 @@ export class CategoryXRefModal implements OnInit {
       subCategory: category.name,
       categoryId: null,
       subCategoryId: category.id
-
     }
+    this.subCategoryCXR = category.name;
   }
 
   closeCategoryXRefModal() {

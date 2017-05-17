@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit, Output} from "@angular/core";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute} from "@angular/router";
 import {RequestMethod, URLSearchParams} from "@angular/http";
 import {NgbDateParserFormatter} from "@ng-bootstrap/ng-bootstrap";
 import {LocalDataSource} from "ng2-smart-table";
-import {Category} from "../category";
+import {Category} from "./category";
 import {HttpService} from "../../http/HttpService";
 import {CategoryDetailService} from "./categoryDetail.service";
 import {CategoryGeneral} from "./categoryGeneral.component";
@@ -103,6 +103,7 @@ export class CategoryDetail implements OnInit, OnDestroy {
   }
 
   onSubmitCategoryDetail(): void {
+
     this.categoryDetail = this.categoryDetailForm.value;
     this.saveOrUpdateCategoryDetail(this.id?RequestMethod.Put:RequestMethod.Post);
   }

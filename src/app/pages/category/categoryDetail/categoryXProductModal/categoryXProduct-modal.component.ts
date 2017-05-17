@@ -17,7 +17,7 @@ import {CategoryXProduct} from "../categoryXProduct";
 export class CategoryXProductModal implements OnInit {
 
 
-  categoryXProductModalSetings = {
+  categoryXProductModalSettings = {
     mode: 'external', // inline|external|click-to-edit
     selectMode: 'single', // single|multi
     actions: {
@@ -57,6 +57,7 @@ export class CategoryXProductModal implements OnInit {
   categoryXProductSource: ServerDataSource;
   categoryXProduct: CategoryXProduct;
   displayOrderCXP: number;
+  productCXP: string;
 
   constructor(protected service: CategoryDetailService,
               private router: Router, protected http: HttpService,
@@ -84,8 +85,8 @@ export class CategoryXProductModal implements OnInit {
       product: product.name,
       categoryId: null,
       productId: product.id
-
     }
+    this.productCXP = product.name;
   }
 
   closeCategoryXProductModal() {

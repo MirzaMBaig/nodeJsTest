@@ -1,16 +1,13 @@
 import {Component, Input, OnInit} from "@angular/core";
-import {FormGroup} from "@angular/forms";
+import {FormArray, FormGroup} from "@angular/forms";
 import {LocalDataSource} from "ng2-smart-table";
-import {CategoryXProduct} from "./categoryXProduct";
 import {CategoryXProductModal} from "./categoryXProductModal/categoryXProduct-modal.component";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {Product} from "../../productDetail/Product";
 
 @Component({
   selector: 'categoryXProducts',
   templateUrl: './categoryXProducts.html',
-  entryComponents: [
-  ]
+  entryComponents: []
 })
 
 export class CategoryXProducts implements OnInit {
@@ -28,26 +25,26 @@ export class CategoryXProducts implements OnInit {
     selectMode: 'single', // single|multi
     actions: {
       add: true,
-      edit: true,
+      edit: false,
       delete: true
     },
     add: {
       addButtonContent: '<i class="ion-ios-plus-outline"></i>',
-      createButtonContent: '<i class="ion-checkmark"></i>',
-      cancelButtonContent: '<i class="ion-close"></i>',
     },
     edit: {
       editButtonContent: '<i class="ion-edit"></i>',
+      saveButtonContent: '<i class="ion-checkmark"></i>',
+      cancelButtonContent: '<i class="ion-close"></i>',
     },
     delete: {
       deleteButtonContent: '<i class="ion-trash-a"></i>',
-      confirmDelete: true
     },
 
     columns: {
       product: {
         title: 'Name',
         type: 'string',
+        editable: false
       },
       displayOrder: {
         title: 'Display Order',
@@ -74,7 +71,19 @@ export class CategoryXProducts implements OnInit {
     });
 
     popupModal.result.then((res) => {
-      res?this.categoryXProductSource.prepend(res):"";
+      res ? this.categoryXProductSource.prepend(res) : "";
     }).catch(err => console.log(err));
+  }
+
+  deleteCategoryXProduct(event): void {
+    if (window.confirm('Are you sure you want to delete?')) {
+      let val = this.categoryDetailForm.controls['allProductXref'].value.filter(el => el !== event.data);
+      this.categoryXProductSource.remove(event.data).then(res=>{
+          const control = <FormArray>this.categoryDetailForm.controls['allProductXref'];
+          control.patchValue(val);
+        }
+      )
+        .catch(err => console.log(err));
+    }
   }
 }

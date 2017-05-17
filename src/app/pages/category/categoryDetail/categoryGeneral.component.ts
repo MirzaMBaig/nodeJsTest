@@ -4,7 +4,7 @@ import {ActivatedRoute} from "@angular/router";
 import {RequestMethod, URLSearchParams} from "@angular/http";
 import {NgbDateParserFormatter, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {LocalDataSource} from "ng2-smart-table";
-import {Category} from "../category";
+import {Category} from "./category";
 import {HttpService} from "../../http/HttpService";
 import {CategoryDetailService} from "./categoryDetail.service";
 

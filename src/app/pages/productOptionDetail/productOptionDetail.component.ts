@@ -3,10 +3,11 @@ import {ProductOptionTable} from "../productOptionsTable/ProductOptionTable.comp
 import {ActivatedRoute} from "@angular/router";
 import {ProductOptionDetailService} from "./productOptionDetail.service";
 import {LocalDataSource} from "ng2-smart-table";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {HttpService} from "../http/HttpService";
 import {RequestMethod} from "@angular/http";
 import ProductOption = ProductOptionModel.ProductOption;
+import ProductOptionValue = ProductOptionModel.ProductOptionValue;
 
 @Component({
   selector: 'productOptionDetail',
@@ -93,14 +94,15 @@ export class ProductOptionDetail implements OnInit, OnChanges, OnDestroy {
       id: [this.poDetail.id],
       label: [this.poDetail.label, Validators.required],
       optionType: [this.poDetail.optionType, Validators.required],
-      productOptionValues: [this.poDetail.productOptionValues, Validators.minLength(1)],
+      productOptionValues: [this.poDetail.productOptionValues],
       required: [this.poDetail.required],
       useInSkuGeneration: [this.poDetail.useInSkuGeneration],
       validationStrategyType: [this.poDetail.validationStrategyType],
       validationString: [this.poDetail.validationString],
       validationType: [this.poDetail.validationType],
     });
-    this.optionValueSource.load(this.poDetail.productOptionValues);
+    console.log(this.productOptionForm.controls['productOptionValues'].value)
+    this.optionValueSource.load(this.productOptionForm.controls['productOptionValues'].value);
   }
 
   ngOnInit(): void {
@@ -123,6 +125,9 @@ export class ProductOptionDetail implements OnInit, OnChanges, OnDestroy {
 
   onDeleteConfirm(event): void {
     if (window.confirm('Are you sure you want to delete?')) {
+      let val = this.productOptionForm.controls['productOptionValues'].value.filter(el => el !== event.data);
+      const control = <FormArray>this.productOptionForm.controls['productOptionValues'];
+      control.patchValue(val);
       event.confirm.resolve();
     } else {
       event.confirm.reject();

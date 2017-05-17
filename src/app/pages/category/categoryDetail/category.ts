@@ -1,5 +1,5 @@
-import {CategoryXProduct} from "./categoryDetail/categoryXProduct";
-import {CategoryXRefModel} from "./categoryDetail/categoryXRef";
+import {CategoryXProduct} from "./categoryXProduct";
+import {CategoryXRefModel} from "./categoryXRef";
 
 export class Category {
 

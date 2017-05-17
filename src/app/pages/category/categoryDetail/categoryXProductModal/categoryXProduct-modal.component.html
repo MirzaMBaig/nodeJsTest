@@ -10,12 +10,17 @@
       <div class="row">
         <div class="col-md-12">
           <ba-card title="Products" baCardClass="with-scroll">
-            <ng2-smart-table [settings]="categoryXProductModalSetings" [source]="categoryXProductSource"
+            <ng2-smart-table [settings]="categoryXProductModalSettings" [source]="categoryXProductSource"
                              (userRowSelect)="onCategoryXProductRowSelect($event)">
 
             </ng2-smart-table>
           </ba-card>
           <ba-card>
+            <div [ngClass]="{'has-error':!productCXPCtrl.valid}">
+              <label for="productCXP">Product</label>
+              <input type="text" id="productCXP" placeholder="Product"
+                     [(ngModel)]="productCXP" #productCXPCtrl="ngModel" required>
+            </div>
             <div [ngClass]="{'has-error':!displayOrderCXPCtrl.valid}">
               <label for="displayOrderCXP">Display Order</label>
               <input type="text" id="displayOrderCXP" placeholder="Display Order"
@@ -27,7 +32,7 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-primary confirm-btn" [disabled]="!displayOrderCXPCtrl.valid"
+    <button class="btn btn-primary confirm-btn" [disabled]="!displayOrderCXPCtrl.valid || !productCXPCtrl.valid"
             (click)="closeCategoryXProductModal()">Add Product
     </button>
   </div>

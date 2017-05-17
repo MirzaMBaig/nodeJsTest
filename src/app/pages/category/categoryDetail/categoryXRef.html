@@ -4,7 +4,7 @@
       <div>
         <ba-card title="Child Categories" baCardClass="with-scroll">
           <ng2-smart-table [settings]="categoryXRefSettings" [source]="categoryXRefSource"
-                           (deleteConfirm)="onCategoryXRefDeleteConfirm($event)"
+                           (delete)="deleteCategoryXRef($event)"
                            (create)="addCategoryXRef($event)"></ng2-smart-table>
         </ba-card>
       </div>
