@@ -71,7 +71,7 @@ export class CategoryXRef implements OnInit {
     });
 
     modalRef.result.then((res) => {
-      res?this.categoryXRefSource.prepend(res):"";
+      res?this.categoryXRefSource.prepend(res):null;
     }).catch(err => console.log(err));
   }
 

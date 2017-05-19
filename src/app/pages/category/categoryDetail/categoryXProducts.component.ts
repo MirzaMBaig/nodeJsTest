@@ -3,6 +3,7 @@ import {FormArray, FormGroup} from "@angular/forms";
 import {LocalDataSource} from "ng2-smart-table";
 import {CategoryXProductModal} from "./categoryXProductModal/categoryXProduct-modal.component";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {forEach} from "@angular/router/src/utils/collection";
 
 @Component({
   selector: 'categoryXProducts',
@@ -19,6 +20,7 @@ export class CategoryXProducts implements OnInit {
   public categoryXProductSource: LocalDataSource;
 
   categoryInventoryTypes: Array<String> = ["No Value Selected", "Always Available", "Check Quantity", "Unavailable"];
+  categoryXProductIds: Array<number> = [];
 
   categoryXProductSettings = {
     mode: 'external', // inline|external|click-to-edit
@@ -61,6 +63,11 @@ export class CategoryXProducts implements OnInit {
   }
 
   ngOnInit(): void {
+    this.categoryXProductSource.getElements().then(res=>{
+      for(let cxp in res) {
+        console.log(this.categoryXProductSource.find(cxp));
+      }
+    });
   }
 
   addCategoryXProduct(event): void {
@@ -71,7 +78,7 @@ export class CategoryXProducts implements OnInit {
     });
 
     popupModal.result.then((res) => {
-      res ? this.categoryXProductSource.prepend(res) : "";
+      res ? this.categoryXProductSource.prepend(res) : null;
     }).catch(err => console.log(err));
   }
 

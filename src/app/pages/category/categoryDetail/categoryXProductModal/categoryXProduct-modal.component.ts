@@ -9,10 +9,10 @@ import {CategoryXProduct} from "../categoryXProduct";
 
 @Component({
   selector: 'add-categoryXProduct-modal',
-  styleUrls: ['./default-modal.component.scss'],
   templateUrl: './categoryXProduct-modal.component.html',
   providers: [CategoryDetailService],
 })
+
 
 export class CategoryXProductModal implements OnInit {
 
@@ -90,7 +90,7 @@ export class CategoryXProductModal implements OnInit {
   }
 
   closeCategoryXProductModal() {
-    this.categoryXProduct?this.categoryXProduct.displayOrder = this.displayOrderCXP:"";
+    this.categoryXProduct?this.categoryXProduct.displayOrder = this.displayOrderCXP:null;
     this.activeModal.close(this.categoryXProduct);
   }
 

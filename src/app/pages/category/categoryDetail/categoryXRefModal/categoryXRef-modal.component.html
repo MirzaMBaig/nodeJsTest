@@ -16,15 +16,19 @@
             </ng2-smart-table>
           </ba-card>
           <ba-card>
-            <div [ngClass]="{'has-error':!subCategoryCXRCtrl.valid}">
-              <label for="subCategoryCXR">Category</label>
-              <input type="text" id="subCategoryCXR" placeholder="Category"
-                     [(ngModel)]="subCategoryCXR" #subCategoryCXRCtrl="ngModel" required readonly>
-            </div>
-            <div [ngClass]="{'has-error':!displayOrderCXRCtrl.valid}">
-              <label for="displayOrderCXR">Display Order</label>
-              <input type="text" id="displayOrderCXR" placeholder="Display Order"
-                    [(ngModel)]="displayOrderCXR" #displayOrderCXRCtrl="ngModel" required>
+            <div class="col-md-6">
+              <div class="form-group">
+                <div [ngClass]="{'has-error':!subCategoryCXRCtrl.valid}">
+                  <label for="subCategoryCXR">Category</label>
+                  <input type="text" class="form-control" id="subCategoryCXR" placeholder="Category"
+                         [(ngModel)]="subCategoryCXR" #subCategoryCXRCtrl="ngModel" required readonly>
+                </div>
+                <div [ngClass]="{'has-error':!displayOrderCXRCtrl.valid}">
+                  <label for="displayOrderCXR">Display Order</label>
+                  <input type="text" class="form-control" id="displayOrderCXR" placeholder="Display Order"
+                         [(ngModel)]="displayOrderCXR" #displayOrderCXRCtrl="ngModel" required>
+                </div>
+              </div>
             </div>
           </ba-card>
         </div>

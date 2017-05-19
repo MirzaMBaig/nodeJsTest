@@ -1,6 +1,5 @@
 import {Component, Injectable, OnInit} from "@angular/core";
 import {ServerDataSource} from "ng2-smart-table";
-import "style-loader!./categoryList.scss";
 import {Router} from "@angular/router";
 import {HttpService} from "../http/HttpService";
 import {Category} from "./categoryDetail/category";

@@ -8,7 +8,6 @@ import {CategoryXRefModel} from "../categoryXRef";
 
 @Component({
   selector: 'add-categoryXRef-modal',
-  styleUrls: ['./default-modal.component.scss'],
   templateUrl: './categoryXRef-modal.component.html',
   providers: [CategoryDetailService],
 })
@@ -85,7 +84,7 @@ export class CategoryXRefModal implements OnInit {
   }
 
   closeCategoryXRefModal() {
-    this.categoryXRef?this.categoryXRef.displayOrder = this.displayOrderCXR:"";
+    this.categoryXRef?this.categoryXRef.displayOrder = this.displayOrderCXR:null;
     this.activeModal.close(this.categoryXRef);
   }
 
