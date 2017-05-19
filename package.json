@@ -154,7 +154,7 @@
     "pretest": "npm run lint",
     "docs": "npm run typedoc -- --options typedoc.json --exclude '**/*.spec.ts' ./src/",
     "gh-pages": "wintersmith build -C docs && gh-pages -d docs/build",
-    "start": "npm run server:dev",
+    "start:dev": "npm run server:dev",
     "start:hmr": "npm run server:dev:hmr",
     "version": "npm run build",
     "postversion": "git push && git push --tags",
@@ -168,7 +168,8 @@
     "build:aot:prod": "npm run clean:dist && npm run clean:aot && webpack --config config/webpack.prod.js  --progress --profile --bail",
     "build:aot": "npm run build:aot:prod",
     "clean:aot": "npm run rimraf -- compiled",
-    "build:ci": "npm run build:prod && npm run build:aot"
+    "build:ci": "npm run build:prod && npm run build:aot",
+    "start": "npm run build:prod && http-server dist -p 80 -c-1 --cors"
   },
   "repository": {
     "type": "git",
