@@ -117,7 +117,7 @@
     "wintersmith-sassy": "1.1.0"
   },
   "scripts": {
-    "rimraf": "./node_modules/rimraf",
+    "rimraf": "rimraf",
     "tslint": "tslint",
     "typedoc": "typedoc",
     "webpack": "webpack --progress --profile --bail",
@@ -138,8 +138,7 @@
     "build": "npm run build:dev",
     "prebuild:dev": "npm run clean:dist",
     "build:dev": " npm run clean:dist && npm run webpack -- --config config/webpack.dev.js",
-    "prebuild:prod": "npm run clean:dist",
-    "build:prod": "npm run clean:dist && webpack --config config/webpack.prod.js  --progress --profile",
+    "build:prod": "npm run webpack --config config/webpack.prod.js  --progress --profile",
     "server": "npm run server:dev",
     "server:dev": "webpack-dev-server --config config/webpack.dev.js --progress --profile --watch --content-base src/",
     "server:dev:hmr": "npm run server:dev -- --inline --hot",
