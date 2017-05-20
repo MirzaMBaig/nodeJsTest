@@ -181,6 +181,6 @@
     "url": "https://github.com/MirzaMBaig/nodeJsTest/issues"
   },
   "engines": {
-    "node": ">= 5.4.1 < 7"
+    "node": ">= 7.8.0"
   }
 }
