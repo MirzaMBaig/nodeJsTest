@@ -154,7 +154,7 @@
     "pretest": "npm run lint",
     "docs": "npm run typedoc -- --options typedoc.json --exclude '**/*.spec.ts' ./src/",
     "gh-pages": "wintersmith build -C docs && gh-pages -d docs/build",
-    "start:dev": "npm run server:dev",
+    "start": "npm run server:dev",
     "start:hmr": "npm run server:dev:hmr",
     "version": "npm run build",
     "postversion": "git push && git push --tags",
@@ -169,14 +169,16 @@
     "build:aot": "npm run build:aot:prod",
     "clean:aot": "npm run rimraf -- compiled",
     "build:ci": "npm run build:prod && npm run build:aot",
-    "start": "npm run build:prod && http-server dist -p 80 -c-1 --cors"
+    "start": "http-server dist -c-1 --cors",
+    "postinstall":"npm run build:prod"
   },
+  "main":"index.html",
   "repository": {
     "type": "git",
-    "url": "https://github.com/akveo/ng2-admin.git"
+    "url": "https://github.com/MirzaMBaig/nodeJsTest.git"
   },
   "bugs": {
-    "url": "https://github.com/akveo/ng2-admin/issues"
+    "url": "https://github.com/MirzaMBaig/nodeJsTest/issues"
   },
   "engines": {
     "node": ">= 5.4.1 < 7"
